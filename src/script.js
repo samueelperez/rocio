@@ -117,26 +117,10 @@ function iniciarActualizacionContador() {
                         return;
                     }
 
-                    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-                    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-                    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+                    const segundos = Math.ceil(diferencia / 1000); // Usamos ceil para redondear hacia arriba
 
-                    console.log(`Tiempo restante: ${dias}:${horas}:${minutos}:${segundos}`);
+                    console.log(`Tiempo restante: ${segundos} segundos`);
 
-                    // Agregar efectos visuales cada hora y cuando quedan pocos minutos
-                    if (minutos === 0 && segundos === 0) {
-                        agregarCorazonesFlotantes();
-                    }
-                    
-                    // Efecto especial en los últimos 5 minutos
-                    if (dias === 0 && horas === 0 && minutos <= 5) {
-                        document.body.style.animation = 'latido 1s infinite';
-                    }
-
-                    document.getElementById('dias').textContent = String(dias).padStart(2, '0');
-                    document.getElementById('horas').textContent = String(horas).padStart(2, '0');
-                    document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
                     document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
                 }
             })
