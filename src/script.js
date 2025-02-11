@@ -96,7 +96,12 @@ function iniciarContador() {
         .then(response => response.json())
         .then(data => {
             console.log('Datos recibidos:', data);
-            if (!data || !data.fecha_final) {
+            // Solo iniciar un nuevo contador si no hay datos o si el contador ya expiró
+            const ahora = new Date().getTime();
+            const fechaFinal = data.fecha_final || (data.data && data.data.fecha_final);
+            const contadorExpirado = fechaFinal && (fechaFinal - ahora <= 0);
+            
+            if (!data || !fechaFinal || contadorExpirado) {
                 const fechaInicio = new Date();
                 // Calcular el tiempo total en segundos (3 días, 8 horas, 37 minutos)
                 const dias = 3;
@@ -161,10 +166,16 @@ function iniciarActualizacionContador() {
 
                     console.log(`Tiempo restante: ${dias}d ${horas}h ${minutos}m ${segundos}s`);
 
-                    document.getElementById('dias').textContent = String(dias).padStart(2, '0');
-                    document.getElementById('horas').textContent = String(horas).padStart(2, '0');
-                    document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
-                    document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+                    // Asegurarse de que los elementos existen antes de actualizarlos
+                    const elementoDias = document.getElementById('dias');
+                    const elementoHoras = document.getElementById('horas');
+                    const elementoMinutos = document.getElementById('minutos');
+                    const elementoSegundos = document.getElementById('segundos');
+
+                    if (elementoDias) elementoDias.textContent = String(dias).padStart(2, '0');
+                    if (elementoHoras) elementoHoras.textContent = String(horas).padStart(2, '0');
+                    if (elementoMinutos) elementoMinutos.textContent = String(minutos).padStart(2, '0');
+                    if (elementoSegundos) elementoSegundos.textContent = String(segundos).padStart(2, '0');
                 }
             })
             .catch(error => {

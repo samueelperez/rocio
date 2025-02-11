@@ -1,4 +1,21 @@
-let data = null;
+let data = {
+    fecha_inicio: null,
+    fecha_final: null,
+    segundos_restantes: null
+};
+
+// Cargar datos existentes si los hay
+try {
+    const fs = require('fs');
+    const path = require('path');
+    const dataPath = path.join(__dirname, 'contador-data.json');
+    if (fs.existsSync(dataPath)) {
+        const savedData = JSON.parse(fs.readFileSync(dataPath));
+        data = savedData;
+    }
+} catch (error) {
+    console.error('Error al cargar datos:', error);
+}
 
 exports.handler = async function(event, context) {
     const headers = {
@@ -30,23 +47,27 @@ exports.handler = async function(event, context) {
                 };
 
             case 'POST':
-                const postData = JSON.parse(event.body);
-                console.log('POST - Received data:', postData);
+                const body = JSON.parse(event.body);
+                const tiempoTotal = body.tiempoTotal;
                 
-                data = {
-                    segundos_restantes: postData.tiempoTotal,
-                    fecha_inicio: new Date().getTime(),
-                    iniciado: true
-                };
+                data.fecha_inicio = Date.now();
+                data.segundos_restantes = tiempoTotal;
+                data.fecha_final = data.fecha_inicio + (tiempoTotal * 1000);
                 
-                console.log('POST - Stored data:', data);
+                // Guardar datos
+                try {
+                    const fs = require('fs');
+                    const path = require('path');
+                    const dataPath = path.join(__dirname, 'contador-data.json');
+                    fs.writeFileSync(dataPath, JSON.stringify(data));
+                } catch (error) {
+                    console.error('Error al guardar datos:', error);
+                }
+
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({
-                        success: true,
-                        data: data
-                    })
+                    body: JSON.stringify(data)
                 };
 
             case 'DELETE':
