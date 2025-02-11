@@ -283,26 +283,27 @@
         .countdown {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 30px 0;
+            flex-wrap: wrap;
         }
 
         .time-block {
+            min-width: 70px;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border-radius: 15px;
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            padding: 15px;
-            border-radius: 15px;
-            min-width: 80px;
             box-shadow: 0 5px 15px rgba(255,107,107,0.3);
-            animation: pulsar 1.5s infinite;
         }
 
         .time-block span:first-child {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
-            color: white;
+            margin-bottom: 5px;
         }
 
         .label {
@@ -375,7 +376,19 @@
         <h2 class="titulo-animado">No queda nada... ❤️</h2>
         <div class="countdown">
             <div class="time-block">
-                <span id="segundos">09</span>
+                <span id="dias">03</span>
+                <span class="label">Días</span>
+            </div>
+            <div class="time-block">
+                <span id="horas">08</span>
+                <span class="label">Horas</span>
+            </div>
+            <div class="time-block">
+                <span id="minutos">36</span>
+                <span class="label">Minutos</span>
+            </div>
+            <div class="time-block">
+                <span id="segundos">56</span>
                 <span class="label">Segundos</span>
             </div>
         </div>
