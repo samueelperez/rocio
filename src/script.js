@@ -435,7 +435,7 @@ function mostrarCarta() {
                                                                                 contenedorFinal.className = 'contenedor-final';
                                                                                 contenedorFinal.innerHTML = `
                                                                                     <div class="marco-foto">
-                                                                                        <img src="foto.JPG" alt="Nosotros" class="foto-final">
+                                                                                        <img src="/assets/foto.JPG" alt="Nosotros" class="foto-final">
                                                                                         <div class="corazones-marco"></div>
                                                                                     </div>
                                                                                     <p class="mensaje-final-amor">Te quiero mucho Rocio, nunca lo olvides 💖</p>
@@ -498,10 +498,50 @@ function mostrarCarta() {
                                                                                             botonesContainer.style.opacity = '1';
                                                                                             // Volver a añadir los event listeners
                                                                                             botonesContainer.querySelector('.aceptar').addEventListener('click', () => {
-                                                                                                // ... (mismo código que el botón aceptar original)
-                                                                                            });
-                                                                                            botonesContainer.querySelector('.rechazar').addEventListener('click', () => {
-                                                                                                // ... (mismo código que este event listener)
+                                                                                                // Ocultar los botones y el mensaje anterior
+                                                                                                botonesContainer.style.opacity = '0';
+                                                                                                mensajeFinal.style.opacity = '0';
+                                                                                                
+                                                                                                setTimeout(() => {
+                                                                                                    botonesContainer.remove();
+                                                                                                    mensajeFinal.remove();
+                                                                                                    
+                                                                                                    // Mostrar mensaje de confirmación
+                                                                                                    const mensajeConfirmacion = document.createElement('h2');
+                                                                                                    mensajeConfirmacion.className = 'mensaje-flotante mensaje-confirmacion';
+                                                                                                    mensajeConfirmacion.textContent = 'No tenía ninguna duda 💝';
+                                                                                                    document.body.appendChild(mensajeConfirmacion);
+                                                                                                    
+                                                                                                    setTimeout(() => {
+                                                                                                        mensajeConfirmacion.style.opacity = '1';
+                                                                                                        
+                                                                                                        setTimeout(() => {
+                                                                                                            mensajeConfirmacion.style.opacity = '0';
+                                                                                                            
+                                                                                                            setTimeout(() => {
+                                                                                                                mensajeConfirmacion.remove();
+                                                                                                                
+                                                                                                                // Crear contenedor para la foto y el mensaje final
+                                                                                                                const contenedorFinal = document.createElement('div');
+                                                                                                                contenedorFinal.className = 'contenedor-final';
+                                                                                                                contenedorFinal.innerHTML = `
+                                                                                                                    <div class="marco-foto">
+                                                                                                                        <img src="/assets/foto.JPG" alt="Nosotros" class="foto-final">
+                                                                                                                        <div class="corazones-marco"></div>
+                                                                                                                    </div>
+                                                                                                                    <p class="mensaje-final-amor">Te quiero mucho Rocio, nunca lo olvides 💖</p>
+                                                                                                                `;
+                                                                                                                document.body.appendChild(contenedorFinal);
+                                                                                                                
+                                                                                                                setTimeout(() => {
+                                                                                                                    contenedorFinal.style.opacity = '1';
+                                                                                                                    crearCorazones();
+                                                                                                                    crearBrillo();
+                                                                                                                }, 100);
+                                                                                                            }, 1000);
+                                                                                                        }, 2000);
+                                                                                                    }, 100);
+                                                                                                }, 1000);
                                                                                             });
                                                                                         }, 100);
                                                                                     }, 1000);
@@ -1158,6 +1198,10 @@ styleSheet.textContent = `
     }
 
     .mensaje-bienvenida {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
         font-family: 'Playfair Display', serif !important;
         font-size: clamp(28px, 6vw, 42px) !important;
         color: #ff4d6d !important;
@@ -1168,8 +1212,11 @@ styleSheet.textContent = `
         padding: 25px 40px !important;
         border-radius: 20px !important;
         box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3) !important;
-        transform: scale(0.9) !important;
-        animation: aparecerBienvenida 0.5s forwards !important;
+        white-space: nowrap !important;
+        z-index: 1000 !important;
+        text-align: center !important;
+        opacity: 0;
+        transition: opacity 0.5s ease !important;
     }
 
     @keyframes aparecerBienvenida {
@@ -1207,7 +1254,8 @@ styleSheet.textContent = `
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
         margin-bottom: 30px;
-        max-width: 90vw;
+        max-width: min(90vw, 500px);
+        margin: 0 auto 30px;
         animation: flotar 3s ease-in-out infinite;
     }
 
@@ -1216,6 +1264,10 @@ styleSheet.textContent = `
         max-width: 400px;
         border-radius: 15px;
         display: block;
+        object-fit: cover;
+        height: auto;
+        margin: 0 auto;
+        max-height: 60vh;
     }
 
     .corazones-marco {
