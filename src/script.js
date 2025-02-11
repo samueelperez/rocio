@@ -738,9 +738,10 @@ styleSheet.textContent = `
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 300px;
-        height: 200px;
+        width: 280px;
+        height: 180px;
         perspective: 1000px;
+        z-index: 1000;
     }
 
     .sobre {
@@ -784,7 +785,7 @@ styleSheet.textContent = `
     .carta {
         position: absolute;
         left: 50%;
-        bottom: 100%;
+        top: -20px;
         transform: translateX(-50%);
         width: 280px;
         background: white;
@@ -797,7 +798,7 @@ styleSheet.textContent = `
         font-size: 14px;
         line-height: 1.6;
         color: #333;
-        max-height: 80vh;
+        max-height: 70vh;
         overflow-y: auto;
         text-align: left;
         margin-bottom: 20px;
@@ -816,12 +817,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -100%) scale(0.9);
+        transform: translate(-50%, -105%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -100%) scale(0.9); }
-        50% { transform: translate(-50%, -105%) scale(0.9); }
+        0%, 100% { transform: translate(-50%, -105%); }
+        50% { transform: translate(-50%, -110%); }
     }
 
     .carta.animada {
@@ -882,8 +883,8 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -120%); }
-        100% { transform: translate(-50%, 0); opacity: 0; }
+        0% { transform: translate(-50%, -105%); }
+        100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
     .mensaje-propuesta {
@@ -949,6 +950,12 @@ styleSheet.textContent = `
         .carta {
             width: 400px;
             font-size: 16px;
+            max-height: 75vh;
+        }
+
+        .sobre-container {
+            width: 320px;
+            height: 200px;
         }
     }
 
