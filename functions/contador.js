@@ -1,4 +1,5 @@
-let contador = null;
+const STORE_KEY = 'contador_data';
+let data = null;
 
 exports.handler = async function(event, context) {
     const headers = {
@@ -14,28 +15,29 @@ exports.handler = async function(event, context) {
 
         switch (event.httpMethod) {
             case 'GET':
-                // Si no hay contador iniciado, devolver objeto vacío
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify(contador || {})
+                    body: JSON.stringify(data || {})
                 };
 
             case 'POST':
-                const data = JSON.parse(event.body);
-                // Guardar la fecha final
-                contador = {
-                    fecha_final: data.fechaFinal,
+                const postData = JSON.parse(event.body);
+                data = {
+                    fecha_final: postData.fechaFinal,
                     iniciado: true
                 };
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({ success: true, data: contador })
+                    body: JSON.stringify({ 
+                        success: true, 
+                        data: data 
+                    })
                 };
 
             case 'DELETE':
-                contador = null;
+                data = null;
                 return {
                     statusCode: 200,
                     headers,
@@ -50,6 +52,7 @@ exports.handler = async function(event, context) {
                 };
         }
     } catch (error) {
+        console.error('Error:', error);
         return {
             statusCode: 500,
             headers,

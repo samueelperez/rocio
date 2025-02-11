@@ -54,7 +54,7 @@ function iniciarContador() {
     fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
-            if (!data.fecha_final) {
+            if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
                 const tiempoTotal = 
                     (4 * 24 * 60 * 60 * 1000) +  // 4 días
@@ -71,12 +71,12 @@ function iniciarContador() {
                     body: JSON.stringify({
                         fechaFinal: fechaFinal
                     })
-                });
+                }).then(response => response.json());
             }
-            return Promise.resolve(data);
+            return data;
         })
         .then((data) => {
-            if (data.fecha_final) {
+            if (data && (data.fecha_final || (data.data && data.data.fecha_final))) {
                 iniciarActualizacionContador();
             }
         })

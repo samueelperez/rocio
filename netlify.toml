@@ -8,4 +8,12 @@
   status = 200
 
 [functions]
-  directory = "functions" 
+  directory = "functions"
+  node_bundler = "esbuild"
+
+[dev]
+  framework = "#custom"
+  command = "npm run dev"
+  targetPort = 5173
+  port = 8888
+  publish = "dist" 
