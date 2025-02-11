@@ -11,14 +11,31 @@ function verificarNombre() {
         document.getElementById('verificacion').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('verificacion').style.display = 'none';
-            document.getElementById('contador').style.display = 'block';
+            // Crear mensaje de bienvenida
+            const mensajeBienvenida = document.createElement('h2');
+            mensajeBienvenida.className = 'mensaje-flotante mensaje-bienvenida';
+            mensajeBienvenida.textContent = '¡Bienvenida Rocio! 💖';
+            document.body.appendChild(mensajeBienvenida);
+
             setTimeout(() => {
-                document.getElementById('contador').style.opacity = '1';
-                if (window.contadorActivo) {
-                    iniciarActualizacionContador();
-                } else {
-                    iniciarContador();
-                }
+                mensajeBienvenida.style.opacity = '1';
+                
+                setTimeout(() => {
+                    mensajeBienvenida.style.opacity = '0';
+                    setTimeout(() => {
+                        mensajeBienvenida.remove();
+                        // Mostrar contador
+                        document.getElementById('contador').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('contador').style.opacity = '1';
+                            if (window.contadorActivo) {
+                                iniciarActualizacionContador();
+                            } else {
+                                iniciarContador();
+                            }
+                        }, 500);
+                    }, 1000);
+                }, 2000);
             }, 100);
         }, 1000);
     } else {
@@ -598,11 +615,13 @@ styleSheet.textContent = `
 
     .container h2 {
         font-family: 'Playfair Display', serif;
-        font-size: clamp(20px, 4vw, 28px);
+        font-size: clamp(24px, 5vw, 32px);
         color: #ff6b6b;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         font-weight: 600;
         line-height: 1.4;
+        text-shadow: 2px 2px 8px rgba(255, 107, 107, 0.2);
+        font-style: italic;
     }
 
     .mensaje-amor {
@@ -614,20 +633,29 @@ styleSheet.textContent = `
 
     #nombreInput {
         font-family: 'Poppins', sans-serif;
-        font-size: clamp(16px, 3.5vw, 18px);
+        font-size: clamp(16px, 4vw, 20px);
         padding: 12px 20px;
-        border: 2px solid rgba(255, 107, 107, 0.3);
+        border: 2px solid rgba(255, 107, 107, 0.4);
         border-radius: 10px;
         width: 80%;
         max-width: 300px;
         margin: 20px auto;
         transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.9);
+        text-align: center;
+        color: #ff6b6b;
     }
 
     #nombreInput:focus {
         outline: none;
         border-color: #ff6b6b;
-        box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+        box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        background-color: white;
+    }
+
+    #nombreInput::placeholder {
+        color: rgba(255, 107, 107, 0.6);
+        font-weight: 300;
     }
 
     .botones-container {
@@ -672,8 +700,26 @@ styleSheet.textContent = `
         transition: opacity 1s ease 1s;
     }
 
-    #btnCarta {
-        transition: opacity 1s ease;
+    #btnVerificar {
+        margin-top: 25px;
+        padding: 12px 30px;
+        font-size: clamp(16px, 3.5vw, 18px);
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        border: none;
+        border-radius: 25px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+    }
+
+    #btnVerificar:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        background: linear-gradient(45deg, #ff5f5f, #ff8282);
     }
 
     .mensaje-flotante {
@@ -903,55 +949,75 @@ styleSheet.textContent = `
     }
 
     .mensaje-propuesta {
-        font-size: clamp(20px, 4.5vw, 32px) !important;
-        font-weight: 700 !important;
-        color: #ff6b6b !important;
-        text-shadow: 2px 2px 8px rgba(255, 107, 107, 0.3) !important;
+        font-family: 'Playfair Display', serif !important;
+        font-size: clamp(24px, 5vw, 36px) !important;
+        font-weight: 600 !important;
+        color: #ff4d6d !important;
+        text-shadow: 3px 3px 10px rgba(255, 77, 109, 0.4) !important;
+        line-height: 1.5 !important;
+        padding: 20px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2) !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+        backdrop-filter: blur(5px) !important;
+        border: 2px solid rgba(255, 77, 109, 0.3) !important;
     }
 
     .botones-respuesta-final {
         position: fixed;
         left: 50%;
-        top: 65%;
+        top: 70%;
         transform: translate(-50%, -50%);
         display: flex;
         gap: 20px;
         opacity: 0;
-        transition: opacity 1s ease;
+        transition: all 1s ease;
         z-index: 1000;
+        flex-direction: column;
+        align-items: center;
     }
 
     .boton-respuesta-final {
-        padding: clamp(12px, 3vw, 20px) clamp(25px, 5vw, 40px);
+        padding: 15px 40px;
         font-size: clamp(16px, 3.5vw, 20px);
         border: none;
-        border-radius: 25px;
+        border-radius: 30px;
         cursor: pointer;
         transition: all 0.3s ease;
         font-weight: 600;
         color: white;
+        width: 250px;
+        margin: 10px 0;
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 0.5px;
     }
 
     .boton-respuesta-final.aceptar {
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        background: linear-gradient(45deg, #ff4d6d, #ff758c);
         box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .boton-respuesta-final.rechazar {
-        background: linear-gradient(45deg, #808080, #9e9e9e);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: transparent;
+        border: 2px solid rgba(255, 77, 109, 0.5);
+        color: #ff4d6d;
     }
 
     .boton-respuesta-final:hover {
-        transform: translateY(-3px);
+        transform: translateY(-5px);
     }
 
     .boton-respuesta-final.aceptar:hover {
-        box-shadow: 0 8px 20px rgba(255,107,107,0.6);
+        box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6);
+        background: linear-gradient(45deg, #ff3d5d, #ff657c);
     }
 
     .boton-respuesta-final.rechazar:hover {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        background: rgba(255, 77, 109, 0.1);
+        border-color: rgba(255, 77, 109, 0.7);
     }
 
     @media (max-width: 480px) {
@@ -991,6 +1057,32 @@ styleSheet.textContent = `
 
     .carta::-webkit-scrollbar-thumb:hover {
         background: #ff8e8e;
+    }
+
+    .mensaje-bienvenida {
+        font-family: 'Playfair Display', serif !important;
+        font-size: clamp(28px, 6vw, 42px) !important;
+        color: #ff4d6d !important;
+        text-shadow: 3px 3px 12px rgba(255, 77, 109, 0.5) !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        padding: 25px 40px !important;
+        border-radius: 20px !important;
+        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3) !important;
+        transform: scale(0.9) !important;
+        animation: aparecerBienvenida 0.5s forwards !important;
+    }
+
+    @keyframes aparecerBienvenida {
+        from {
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
     }
 `;
 document.head.appendChild(styleSheet);
