@@ -596,11 +596,38 @@ styleSheet.textContent = `
         overflow: hidden;
     }
 
+    .container h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(20px, 4vw, 28px);
+        color: #ff6b6b;
+        margin-bottom: 25px;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
     .mensaje-amor {
         margin-top: 20px;
         font-size: 18px;
         color: #ff6b6b;
         font-weight: 500;
+    }
+
+    #nombreInput {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(16px, 3.5vw, 18px);
+        padding: 12px 20px;
+        border: 2px solid rgba(255, 107, 107, 0.3);
+        border-radius: 10px;
+        width: 80%;
+        max-width: 300px;
+        margin: 20px auto;
+        transition: all 0.3s ease;
+    }
+
+    #nombreInput:focus {
+        outline: none;
+        border-color: #ff6b6b;
+        box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
     }
 
     .botones-container {
@@ -746,8 +773,8 @@ styleSheet.textContent = `
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: min(280px, 90vw);
-        height: min(180px, 50vh);
+        width: 280px;
+        height: 180px;
         perspective: 1000px;
         z-index: 1000;
     }
@@ -791,11 +818,11 @@ styleSheet.textContent = `
     }
 
     .carta {
-        position: absolute;
+        position: fixed;
         left: 50%;
-        top: 50%;
+        top: 50vh;
         transform: translateX(-50%);
-        width: min(260px, 80vw);
+        width: 280px;
         background: white;
         padding: min(30px, 5vh) min(30px, 5vw);
         border-radius: 8px;
@@ -806,11 +833,11 @@ styleSheet.textContent = `
         font-size: clamp(12px, 3vw, 14px);
         line-height: 1.6;
         color: #333;
-        max-height: 60vh;
+        max-height: 70vh;
         overflow-y: auto;
         text-align: left;
         margin: 0;
-        transform-origin: center center;
+        transform-origin: center bottom;
     }
 
     .carta p {
@@ -825,12 +852,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -180%);
+        transform: translate(-50%, -100%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -180%); }
-        50% { transform: translate(-50%, -185%); }
+        0%, 100% { transform: translate(-50%, -100%); }
+        50% { transform: translate(-50%, -105%); }
     }
 
     .carta.animada {
@@ -871,7 +898,7 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -180%); }
+        0% { transform: translate(-50%, -100%); }
         100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
@@ -936,16 +963,15 @@ styleSheet.textContent = `
 
     @media (min-width: 768px) {
         .carta {
-            width: min(380px, 70vw);
+            width: 380px;
             font-size: 16px;
-            max-height: 50vh;
+            max-height: 70vh;
             padding: 40px;
         }
 
         .sobre-container {
-            width: min(320px, 80vw);
-            height: min(200px, 45vh);
-            top: 60%;
+            width: 320px;
+            height: 200px;
         }
     }
 
