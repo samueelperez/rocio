@@ -786,7 +786,7 @@ styleSheet.textContent = `
         left: 50%;
         bottom: 100%;
         transform: translateX(-50%);
-        width: 85%;
+        width: 280px;
         background: white;
         padding: 30px;
         border-radius: 8px;
@@ -794,12 +794,14 @@ styleSheet.textContent = `
         opacity: 0;
         transition: all 1.5s ease;
         font-family: 'Playfair Display', serif;
-        font-size: clamp(14px, 3.5vw, 18px);
+        font-size: 14px;
         line-height: 1.6;
         color: #333;
         max-height: 80vh;
         overflow-y: auto;
         text-align: left;
+        margin-bottom: 20px;
+        transform-origin: bottom center;
     }
 
     .carta p {
@@ -814,12 +816,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -120%);
+        transform: translate(-50%, -100%) scale(0.9);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -120%); }
-        50% { transform: translate(-50%, -125%); }
+        0%, 100% { transform: translate(-50%, -100%) scale(0.9); }
+        50% { transform: translate(-50%, -105%) scale(0.9); }
     }
 
     .carta.animada {
@@ -837,15 +839,10 @@ styleSheet.textContent = `
         padding: 30px;
         background-color: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        overflow: hidden;
-        animation: brillar 2s infinite;
+        animation: brillarContainer 2s infinite;
     }
 
-    @keyframes brillar {
+    @keyframes brillarContainer {
         0% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
         50% { box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4); }
         100% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
@@ -946,6 +943,31 @@ styleSheet.textContent = `
             flex-direction: column;
             gap: 15px;
         }
+    }
+
+    @media (min-width: 768px) {
+        .carta {
+            width: 400px;
+            font-size: 16px;
+        }
+    }
+
+    .carta::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .carta::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .carta::-webkit-scrollbar-thumb {
+        background: #ff6b6b;
+        border-radius: 4px;
+    }
+
+    .carta::-webkit-scrollbar-thumb:hover {
+        background: #ff8e8e;
     }
 `;
 document.head.appendChild(styleSheet);
