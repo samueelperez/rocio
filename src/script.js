@@ -368,4 +368,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('btnResponder')
         .addEventListener('click', verificarRespuesta);
+
+    // Prevenir zoom con gestos
+    document.addEventListener('gesturestart', function(e) {
+        e.preventDefault();
+    });
+
+    // Prevenir zoom con teclas (Ctrl + rueda del ratón o Ctrl + +/-)
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
+            e.preventDefault();
+        }
+    });
+
+    // Prevenir zoom con la rueda del ratón
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
 }); 
