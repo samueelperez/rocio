@@ -90,8 +90,10 @@ function iniciarActualizacionContador() {
         fetch('/.netlify/functions/contador')
             .then(response => response.json())
             .then(data => {
-                if (data.fecha_final) {
-                    const fechaFinal = data.fecha_final;
+                // Obtener la fecha final del objeto correcto
+                const fechaFinal = data.fecha_final || (data.data && data.data.fecha_final);
+                
+                if (fechaFinal) {
                     const ahora = new Date().getTime();
                     const diferencia = fechaFinal - ahora;
                     
@@ -122,6 +124,7 @@ function iniciarActualizacionContador() {
 
     actualizarContador(); // Ejecutar inmediatamente
     const intervalo = setInterval(actualizarContador, 1000);
+    return intervalo; // Retornar el intervalo para poder limpiarlo después
 }
 
 function mostrarPreguntaFinal() {
@@ -168,9 +171,11 @@ window.addEventListener('load', () => {
     fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
-            if (data.fecha_final) {
+            const fechaFinal = data.fecha_final || (data.data && data.data.fecha_final);
+            
+            if (fechaFinal) {
                 const ahora = new Date().getTime();
-                const diferencia = data.fecha_final - ahora;
+                const diferencia = fechaFinal - ahora;
                 
                 if (diferencia > 0) {
                     document.getElementById('verificacion').style.display = 'none';
