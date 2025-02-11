@@ -206,7 +206,6 @@ function manejarRespuesta(respuesta) {
 
                 setTimeout(() => {
                     primerMensaje.style.opacity = '0';
-                    primerMensaje.style.transform = 'translateY(-20px)';
 
                     setTimeout(() => {
                         primerMensaje.remove();
@@ -481,27 +480,54 @@ styleSheet.textContent = `
         top: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        font-size: 28px;
+        font-size: clamp(24px, 5vw, 36px);
         text-align: center;
         opacity: 0;
         transition: opacity 1.5s ease;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         z-index: 1000;
         width: 90%;
         max-width: 600px;
-        font-weight: 300;
+        font-weight: 500;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         letter-spacing: 1px;
         padding: 20px;
+        will-change: opacity;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+        .mensaje-flotante {
+            font-size: clamp(20px, 6vw, 28px);
+            width: 85%;
+            padding: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .mensaje-flotante {
+            font-size: clamp(18px, 5.5vw, 24px);
+            width: 80%;
+            padding: 10px;
+        }
     }
 
     .container-boton-carta {
         position: fixed;
         left: 50%;
-        top: 65%;
+        top: clamp(60%, 65%, 70%);
         transform: translate(-50%, -50%);
         opacity: 0;
         transition: opacity 1.5s ease;
         z-index: 1000;
+        width: 90%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    .boton-respuesta {
+        font-size: clamp(16px, 4vw, 20px);
+        padding: clamp(12px, 3vw, 20px) clamp(25px, 5vw, 40px);
     }
 
     .corazon-flotante {
