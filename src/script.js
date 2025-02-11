@@ -51,7 +51,7 @@ function agregarCorazonesFlotantes() {
 }
 
 function iniciarContador() {
-    fetch('/api/contador')
+    fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
             if (!data.fecha_final) {
@@ -63,7 +63,7 @@ function iniciarContador() {
                 
                 const fechaFinal = fechaInicio.getTime() + tiempoTotal;
                 
-                return fetch('/api/contador', {
+                return fetch('/.netlify/functions/contador', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ function iniciarContador() {
 
 function iniciarActualizacionContador() {
     function actualizarContador() {
-        fetch('/api/contador')
+        fetch('/.netlify/functions/contador')
             .then(response => response.json())
             .then(data => {
                 if (data.fecha_final) {
@@ -94,7 +94,7 @@ function iniciarActualizacionContador() {
                     
                     if (diferencia <= 0) {
                         clearInterval(intervalo);
-                        fetch('/api/contador', {
+                        fetch('/.netlify/functions/contador', {
                             method: 'DELETE'
                         });
                         mostrarPreguntaFinal();
@@ -166,7 +166,7 @@ function verificarRespuesta() {
 
 // Actualizar la verificación al cargar la página
 window.addEventListener('load', () => {
-    fetch('/api/contador')
+    fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
             if (data.fecha_final) {
@@ -179,7 +179,7 @@ window.addEventListener('load', () => {
                     document.getElementById('contador').style.opacity = '1';
                     iniciarActualizacionContador();
                 } else {
-                    fetch('/api/contador', {
+                    fetch('/.netlify/functions/contador', {
                         method: 'DELETE'
                     });
                     mostrarPreguntaFinal();
