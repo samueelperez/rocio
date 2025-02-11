@@ -300,28 +300,6 @@ function crearLluviaConstante() {
 
 // Agregar los estilos necesarios
 const styleSheet = document.createElement('style');
-styleSheet.textContent += `
-    .corazon-lluvia {
-        position: fixed;
-        top: -20px;
-        z-index: -1;
-        pointer-events: none;
-        animation: caerLento linear forwards;
-    }
-
-    @keyframes caerLento {
-        0% {
-            transform: translateY(-20px) rotate(0deg);
-        }
-        100% {
-            transform: translateY(120vh) rotate(360deg);
-        }
-    }
-`;
-document.head.appendChild(styleSheet);
-
-// Estilos de animación
-const styleSheet = document.createElement('style');
 styleSheet.textContent = `
     @keyframes latido {
         0%, 100% { transform: scale(1); }
@@ -337,6 +315,23 @@ styleSheet.textContent = `
         0%, 100% { transform: translateX(0); }
         25% { transform: translateX(-10px); }
         75% { transform: translateX(10px); }
+    }
+
+    .corazon-lluvia {
+        position: fixed;
+        top: -20px;
+        z-index: -1;
+        pointer-events: none;
+        animation: caerLento linear forwards;
+    }
+
+    @keyframes caerLento {
+        0% {
+            transform: translateY(-20px) rotate(0deg);
+        }
+        100% {
+            transform: translateY(120vh) rotate(360deg);
+        }
     }
 
     .container {
