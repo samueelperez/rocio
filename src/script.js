@@ -407,11 +407,109 @@ function mostrarCarta() {
                                                             
                                                             // Agregar eventos a los botones
                                                             botonesContainer.querySelector('.aceptar').addEventListener('click', () => {
-                                                                // Aquí puedes agregar lo que pasa cuando acepta
+                                                                // Ocultar los botones y el mensaje anterior
+                                                                botonesContainer.style.opacity = '0';
+                                                                mensajeFinal.style.opacity = '0';
+                                                                
+                                                                setTimeout(() => {
+                                                                    botonesContainer.remove();
+                                                                    mensajeFinal.remove();
+                                                                    
+                                                                    // Mostrar mensaje de confirmación
+                                                                    const mensajeConfirmacion = document.createElement('h2');
+                                                                    mensajeConfirmacion.className = 'mensaje-flotante mensaje-confirmacion';
+                                                                    mensajeConfirmacion.textContent = 'No tenía ninguna duda 💝';
+                                                                    document.body.appendChild(mensajeConfirmacion);
+                                                                    
+                                                                    setTimeout(() => {
+                                                                        mensajeConfirmacion.style.opacity = '1';
+                                                                        
+                                                                        setTimeout(() => {
+                                                                            mensajeConfirmacion.style.opacity = '0';
+                                                                            
+                                                                            setTimeout(() => {
+                                                                                mensajeConfirmacion.remove();
+                                                                                
+                                                                                // Crear contenedor para la foto y el mensaje final
+                                                                                const contenedorFinal = document.createElement('div');
+                                                                                contenedorFinal.className = 'contenedor-final';
+                                                                                contenedorFinal.innerHTML = `
+                                                                                    <div class="marco-foto">
+                                                                                        <img src="foto.JPG" alt="Nosotros" class="foto-final">
+                                                                                        <div class="corazones-marco"></div>
+                                                                                    </div>
+                                                                                    <p class="mensaje-final-amor">Te quiero mucho Rocio, nunca lo olvides 💖</p>
+                                                                                `;
+                                                                                document.body.appendChild(contenedorFinal);
+                                                                                
+                                                                                setTimeout(() => {
+                                                                                    contenedorFinal.style.opacity = '1';
+                                                                                    crearCorazones();
+                                                                                    crearBrillo();
+                                                                                }, 100);
+                                                                            }, 1000);
+                                                                        }, 2000);
+                                                                    }, 100);
+                                                                }, 1000);
                                                             });
                                                             
                                                             botonesContainer.querySelector('.rechazar').addEventListener('click', () => {
-                                                                // Aquí puedes agregar lo que pasa cuando rechaza
+                                                                // Ocultar los botones y el mensaje anterior
+                                                                botonesContainer.style.opacity = '0';
+                                                                mensajeFinal.style.opacity = '0';
+                                                                
+                                                                setTimeout(() => {
+                                                                    botonesContainer.remove();
+                                                                    mensajeFinal.remove();
+                                                                    
+                                                                    // Mostrar mensaje de error
+                                                                    const mensajeError = document.createElement('h2');
+                                                                    mensajeError.className = 'mensaje-flotante mensaje-error';
+                                                                    mensajeError.textContent = 'Creo que te has equivocado... 🤔';
+                                                                    document.body.appendChild(mensajeError);
+                                                                    
+                                                                    setTimeout(() => {
+                                                                        mensajeError.style.opacity = '1';
+                                                                        
+                                                                        setTimeout(() => {
+                                                                            mensajeError.style.opacity = '0';
+                                                                            setTimeout(() => {
+                                                                                mensajeError.remove();
+                                                                                
+                                                                                // Volver a mostrar la pregunta y los botones
+                                                                                const mensajeFinal = document.createElement('h2');
+                                                                                mensajeFinal.className = 'mensaje-flotante mensaje-propuesta';
+                                                                                mensajeFinal.textContent = 'Rocio Velasco, ¿quieres ser mi compañera de vida y empezar nuestra historia juntos?';
+                                                                                document.body.appendChild(mensajeFinal);
+                                                                                
+                                                                                setTimeout(() => {
+                                                                                    mensajeFinal.style.opacity = '1';
+                                                                                    
+                                                                                    setTimeout(() => {
+                                                                                        const botonesContainer = document.createElement('div');
+                                                                                        botonesContainer.className = 'botones-respuesta-final';
+                                                                                        botonesContainer.innerHTML = `
+                                                                                            <button class="boton-respuesta-final aceptar">Claro que quiero</button>
+                                                                                            <button class="boton-respuesta-final rechazar">No, gracias</button>
+                                                                                        `;
+                                                                                        document.body.appendChild(botonesContainer);
+                                                                                        
+                                                                                        setTimeout(() => {
+                                                                                            botonesContainer.style.opacity = '1';
+                                                                                            // Volver a añadir los event listeners
+                                                                                            botonesContainer.querySelector('.aceptar').addEventListener('click', () => {
+                                                                                                // ... (mismo código que el botón aceptar original)
+                                                                                            });
+                                                                                            botonesContainer.querySelector('.rechazar').addEventListener('click', () => {
+                                                                                                // ... (mismo código que este event listener)
+                                                                                            });
+                                                                                        }, 100);
+                                                                                    }, 1000);
+                                                                                }, 100);
+                                                                            }, 1000);
+                                                                        }, 2000);
+                                                                    }, 100);
+                                                                }, 1000);
                                                             });
                                                         }, 100);
                                                     }, 1000);
@@ -1081,6 +1179,106 @@ styleSheet.textContent = `
         }
         to {
             transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .mensaje-confirmacion {
+        font-family: 'Playfair Display', serif !important;
+        font-size: clamp(28px, 5vw, 38px) !important;
+        color: #ff4d6d !important;
+        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.4) !important;
+    }
+
+    .contenedor-final {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .marco-foto {
+        position: relative;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
+        margin-bottom: 30px;
+        max-width: 90vw;
+        animation: flotar 3s ease-in-out infinite;
+    }
+
+    .foto-final {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 15px;
+        display: block;
+    }
+
+    .corazones-marco {
+        position: absolute;
+        inset: -15px;
+        border: 3px solid #ff4d6d;
+        border-radius: 25px;
+        z-index: -1;
+    }
+
+    .corazones-marco::before,
+    .corazones-marco::after {
+        content: '❤️';
+        position: absolute;
+        font-size: 24px;
+    }
+
+    .corazones-marco::before {
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .corazones-marco::after {
+        bottom: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .mensaje-final-amor {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(20px, 4vw, 28px);
+        color: #ff4d6d;
+        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3);
+        margin-top: 20px;
+        font-weight: 600;
+        animation: brillarTexto 2s infinite;
+    }
+
+    @keyframes brillarTexto {
+        0%, 100% { text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3); }
+        50% { text-shadow: 2px 2px 12px rgba(255, 77, 109, 0.6); }
+    }
+
+    .mensaje-error {
+        font-family: 'Playfair Display', serif !important;
+        font-size: clamp(24px, 5vw, 34px) !important;
+        color: #ff4d6d !important;
+        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.4) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        padding: 20px 30px !important;
+        border-radius: 15px !important;
+        box-shadow: 0 5px 20px rgba(255, 77, 109, 0.2) !important;
+        animation: aparecer 0.5s ease-out forwards !important;
+    }
+
+    @keyframes aparecer {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
             opacity: 1;
         }
     }
