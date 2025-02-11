@@ -271,10 +271,9 @@ ajustarAlturaVH();
 
 // Al inicio del archivo
 document.addEventListener('DOMContentLoaded', () => {
-    // Agregar los event listeners
-    document.querySelector('button[onclick="verificarNombre()"]')
+    document.getElementById('btnVerificar')
         .addEventListener('click', verificarNombre);
     
-    document.querySelector('button[onclick="verificarRespuesta()"]')
+    document.getElementById('btnResponder')
         .addEventListener('click', verificarRespuesta);
 }); 

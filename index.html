@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para mi amor ❤️</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         body {
@@ -339,7 +339,7 @@
         <p>¿Cuál es tu nombre?</p>
         <input type="text" id="nombreInput" placeholder="Escribe tu nombre aquí...">
         <br>
-        <button>✨ Continuar ✨</button>
+        <button id="btnVerificar">✨ Continuar ✨</button>
     </div>
 
     <div class="container" id="contador" style="display: none;">
@@ -371,7 +371,7 @@
         <p style="font-size: 14px; color: #888;">Pista: La respuesta correcta es "sí" 😊</p>
         <input type="text" id="respuesta" placeholder="Tu respuesta aquí...">
         <br>
-        <button>💝 Responder 💝</button>
+        <button id="btnResponder">💝 Responder 💝</button>
     </div>
 
     <div class="container" id="segundaPantalla" style="display: none;">
