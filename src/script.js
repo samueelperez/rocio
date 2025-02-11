@@ -67,16 +67,14 @@ function iniciarContador() {
                 const fechaInicio = new Date();
                 const tiempoTotal = 9; // 9 segundos
                 
-                const fechaFinal = fechaInicio.getTime() + (tiempoTotal * 1000);
-                
-                console.log('Creando nuevo contador para:', new Date(fechaFinal));
+                console.log('Iniciando contador de', tiempoTotal, 'segundos');
                 return fetch('/.netlify/functions/contador', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        fechaFinal: fechaFinal
+                        tiempoTotal: tiempoTotal
                     })
                 }).then(response => response.json());
             }
@@ -84,7 +82,7 @@ function iniciarContador() {
         })
         .then((data) => {
             console.log('Datos finales:', data);
-            if (data && (data.fecha_final || (data.data && data.data.fecha_final))) {
+            if (data && (data.segundos_restantes || (data.data && data.data.segundos_restantes))) {
                 iniciarActualizacionContador();
             }
         })
@@ -99,15 +97,16 @@ function iniciarActualizacionContador() {
             .then(response => response.json())
             .then(data => {
                 console.log('Actualizando contador:', data);
-                const fechaFinal = data.fecha_final || (data.data && data.data.fecha_final);
+                const datos = data.data || data;
                 
-                if (fechaFinal) {
+                if (datos.fecha_inicio && datos.segundos_restantes) {
                     const ahora = new Date().getTime();
-                    const diferencia = fechaFinal - ahora;
+                    const tiempoTranscurrido = (ahora - datos.fecha_inicio) / 1000;
+                    const segundosRestantes = datos.segundos_restantes - tiempoTranscurrido;
                     
-                    console.log('Diferencia:', diferencia);
+                    console.log('Segundos restantes:', segundosRestantes);
                     
-                    if (diferencia <= 0) {
+                    if (segundosRestantes <= 0) {
                         console.log('Contador terminado');
                         clearInterval(intervalo);
                         fetch('/.netlify/functions/contador', {
@@ -117,7 +116,7 @@ function iniciarActualizacionContador() {
                         return;
                     }
 
-                    const segundos = Math.max(0, Math.ceil(diferencia / 1000));
+                    const segundos = Math.max(0, Math.ceil(segundosRestantes));
                     const segundosMostrar = Math.min(9, segundos);
 
                     console.log(`Tiempo restante: ${segundos} segundos`);

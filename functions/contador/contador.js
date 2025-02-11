@@ -34,7 +34,8 @@ exports.handler = async function(event, context) {
                 console.log('POST - Received data:', postData);
                 
                 data = {
-                    fecha_final: postData.fechaFinal,
+                    segundos_restantes: postData.tiempoTotal,
+                    fecha_inicio: new Date().getTime(),
                     iniciado: true
                 };
                 
