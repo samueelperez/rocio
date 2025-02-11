@@ -51,18 +51,17 @@ function agregarCorazonesFlotantes() {
 }
 
 function iniciarContador() {
+    console.log('Iniciando contador...');
     fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
+            console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 
-                    (4 * 24 * 60 * 60 * 1000) +  // 4 días
-                    (23 * 60 * 60 * 1000) +      // 23 horas
-                    (4 * 60 * 1000);             // 4 minutos
-                
+                const tiempoTotal = 10000; // 10 segundos para prueba
                 const fechaFinal = fechaInicio.getTime() + tiempoTotal;
                 
+                console.log('Creando nuevo contador para:', new Date(fechaFinal));
                 return fetch('/.netlify/functions/contador', {
                     method: 'POST',
                     headers: {
@@ -76,6 +75,7 @@ function iniciarContador() {
             return data;
         })
         .then((data) => {
+            console.log('Datos finales:', data);
             if (data && (data.fecha_final || (data.data && data.data.fecha_final))) {
                 iniciarActualizacionContador();
             }
@@ -90,14 +90,17 @@ function iniciarActualizacionContador() {
         fetch('/.netlify/functions/contador')
             .then(response => response.json())
             .then(data => {
-                // Obtener la fecha final del objeto correcto
+                console.log('Actualizando contador:', data);
                 const fechaFinal = data.fecha_final || (data.data && data.data.fecha_final);
                 
                 if (fechaFinal) {
                     const ahora = new Date().getTime();
                     const diferencia = fechaFinal - ahora;
                     
+                    console.log('Diferencia:', diferencia);
+                    
                     if (diferencia <= 0) {
+                        console.log('Contador terminado');
                         clearInterval(intervalo);
                         fetch('/.netlify/functions/contador', {
                             method: 'DELETE'
@@ -111,6 +114,8 @@ function iniciarActualizacionContador() {
                     const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
                     const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
+                    console.log(`Tiempo restante: ${dias}:${horas}:${minutos}:${segundos}`);
+
                     document.getElementById('dias').textContent = String(dias).padStart(2, '0');
                     document.getElementById('horas').textContent = String(horas).padStart(2, '0');
                     document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
@@ -122,9 +127,10 @@ function iniciarActualizacionContador() {
             });
     }
 
-    actualizarContador(); // Ejecutar inmediatamente
+    console.log('Iniciando actualización del contador');
+    actualizarContador();
     const intervalo = setInterval(actualizarContador, 1000);
-    return intervalo; // Retornar el intervalo para poder limpiarlo después
+    return intervalo;
 }
 
 function mostrarPreguntaFinal() {
