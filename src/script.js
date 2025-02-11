@@ -65,9 +65,9 @@ function iniciarContador() {
             console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 9000; // 9 segundos exactos
+                const tiempoTotal = 9; // 9 segundos
                 
-                const fechaFinal = fechaInicio.getTime() + tiempoTotal;
+                const fechaFinal = fechaInicio.getTime() + (tiempoTotal * 1000);
                 
                 console.log('Creando nuevo contador para:', new Date(fechaFinal));
                 return fetch('/.netlify/functions/contador', {
@@ -117,11 +117,12 @@ function iniciarActualizacionContador() {
                         return;
                     }
 
-                    const segundos = Math.ceil(diferencia / 1000); // Usamos ceil para redondear hacia arriba
+                    const segundos = Math.max(0, Math.ceil(diferencia / 1000));
+                    const segundosMostrar = Math.min(9, segundos);
 
                     console.log(`Tiempo restante: ${segundos} segundos`);
 
-                    document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+                    document.getElementById('segundos').textContent = String(segundosMostrar).padStart(2, '0');
                 }
             })
             .catch(error => {
