@@ -58,7 +58,10 @@ function iniciarContador() {
             console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 10000; // 10 segundos para prueba
+                const tiempoTotal = 
+                    (4 * 24 * 60 * 60 * 1000) + // 4 días
+                    (20 * 60 * 60 * 1000);      // 20 horas
+                
                 const fechaFinal = fechaInicio.getTime() + tiempoTotal;
                 
                 console.log('Creando nuevo contador para:', new Date(fechaFinal));
@@ -115,6 +118,16 @@ function iniciarActualizacionContador() {
                     const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
                     console.log(`Tiempo restante: ${dias}:${horas}:${minutos}:${segundos}`);
+
+                    // Agregar efectos visuales cada hora y cuando quedan pocos minutos
+                    if (minutos === 0 && segundos === 0) {
+                        agregarCorazonesFlotantes();
+                    }
+                    
+                    // Efecto especial en los últimos 5 minutos
+                    if (dias === 0 && horas === 0 && minutos <= 5) {
+                        document.body.style.animation = 'latido 1s infinite';
+                    }
 
                     document.getElementById('dias').textContent = String(dias).padStart(2, '0');
                     document.getElementById('horas').textContent = String(horas).padStart(2, '0');
@@ -241,6 +254,11 @@ function crearCorazones() {
 // Estilos de animación
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
+    @keyframes latido {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
     @keyframes caida {
         0% { transform: translateY(-100vh) rotate(0deg); }
         100% { transform: translateY(100vh) rotate(360deg); }
