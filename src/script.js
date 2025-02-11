@@ -291,18 +291,35 @@ function manejarRespuesta(respuesta) {
 }
 
 function mostrarCarta() {
-    document.querySelector('.mensaje-intermedio').style.opacity = '0';
+    const sobreContainer = document.createElement('div');
+    sobreContainer.className = 'sobre-container';
+    sobreContainer.innerHTML = `
+        <div class="sobre">
+            <div class="sobre-solapa"></div>
+            <div class="sobre-frente">💌</div>
+        </div>
+        <div class="carta">
+            <!-- Aquí irá el contenido de la carta -->
+            <p>Contenido de la carta...</p>
+        </div>
+    `;
+    document.body.appendChild(sobreContainer);
+
     setTimeout(() => {
-        document.querySelector('.mensaje-intermedio').remove();
-        document.getElementById('segundaPantalla').style.display = 'block';
+        const sobre = sobreContainer.querySelector('.sobre');
+        sobre.classList.add('abierto');
+
         setTimeout(() => {
-            document.getElementById('segundaPantalla').style.opacity = '1';
-            document.getElementById('mensajeFinal').textContent = 
-                'Pues ha llegado el momento... ¿Quieres ser mi novia? 💝';
-            crearCorazones();
-            crearBrillo();
-        }, 100);
-    }, 1000);
+            const carta = sobreContainer.querySelector('.carta');
+            carta.classList.add('visible');
+
+            setTimeout(() => {
+                carta.classList.add('animada');
+                crearCorazones();
+                crearBrillo();
+            }, 1500);
+        }, 1000);
+    }, 500);
 }
 
 function mostrarPropuesta() {
@@ -419,7 +436,7 @@ function crearLluviaConstante() {
 // Agregar los estilos necesarios
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
 
     body::before {
@@ -616,12 +633,94 @@ styleSheet.textContent = `
     }
 
     .pregunta-especial {
-        font-family: 'Dancing Script', cursive;
+        font-family: 'Playfair Display', serif;
         font-size: clamp(32px, 7vw, 48px);
         color: #ff6b6b;
         margin-bottom: 30px;
         text-shadow: 2px 2px 6px rgba(255, 107, 107, 0.3);
         font-weight: 700;
+        font-style: italic;
+        line-height: 1.3;
+    }
+
+    .sobre-container {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 200px;
+        perspective: 1000px;
+    }
+
+    .sobre {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #ffecec, #ffe0e0);
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        transform-style: preserve-3d;
+        transition: transform 1s ease;
+    }
+
+    .sobre-frente {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    .sobre-solapa {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(45deg, #ffd6d6, #ffbdbd);
+        transform-origin: top;
+        transition: transform 1s ease;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .sobre.abierto .sobre-solapa {
+        transform: rotateX(180deg);
+    }
+
+    .carta {
+        position: absolute;
+        left: 50%;
+        bottom: 100%;
+        transform: translateX(-50%);
+        width: 90%;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        opacity: 0;
+        transition: all 1.5s ease;
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(16px, 4vw, 20px);
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .carta.visible {
+        opacity: 1;
+        transform: translate(-50%, -120%);
+    }
+
+    @keyframes flotar {
+        0%, 100% { transform: translate(-50%, -120%); }
+        50% { transform: translate(-50%, -125%); }
+    }
+
+    .carta.animada {
+        animation: flotar 3s ease-in-out infinite;
     }
 `;
 document.head.appendChild(styleSheet);
