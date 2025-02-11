@@ -744,7 +744,7 @@ styleSheet.textContent = `
     .sobre-container {
         position: fixed;
         left: 50%;
-        top: 55%;
+        top: 50%;
         transform: translate(-50%, -50%);
         width: min(280px, 90vw);
         height: min(180px, 50vh);
@@ -793,7 +793,7 @@ styleSheet.textContent = `
     .carta {
         position: absolute;
         left: 50%;
-        bottom: 0;
+        top: 50%;
         transform: translateX(-50%);
         width: min(260px, 80vw);
         background: white;
@@ -806,11 +806,11 @@ styleSheet.textContent = `
         font-size: clamp(12px, 3vw, 14px);
         line-height: 1.6;
         color: #333;
-        max-height: 45vh;
+        max-height: 60vh;
         overflow-y: auto;
         text-align: left;
         margin: 0;
-        transform-origin: center bottom;
+        transform-origin: center center;
     }
 
     .carta p {
@@ -825,12 +825,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -120%);
+        transform: translate(-50%, -180%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -120%); }
-        50% { transform: translate(-50%, -125%); }
+        0%, 100% { transform: translate(-50%, -180%); }
+        50% { transform: translate(-50%, -185%); }
     }
 
     .carta.animada {
@@ -871,7 +871,7 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -120%); }
+        0% { transform: translate(-50%, -180%); }
         100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
