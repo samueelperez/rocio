@@ -150,10 +150,20 @@ function iniciarActualizacionContador() {
     console.log('Iniciando actualización del contador');
     actualizarContador();
     const intervalo = setInterval(actualizarContador, 1000);
+    
+    // Iniciar la lluvia de corazones
+    const lluviaIntervalo = crearLluviaConstante();
+    
+    // Guardar el intervalo de la lluvia para poder detenerlo si es necesario
+    window.lluviaIntervalo = lluviaIntervalo;
+    
     return intervalo;
 }
 
 function mostrarPreguntaFinal() {
+    if (window.lluviaIntervalo) {
+        clearInterval(window.lluviaIntervalo);
+    }
     document.getElementById('contador').style.opacity = '0';
     setTimeout(() => {
         document.getElementById('contador').style.display = 'none';
@@ -263,6 +273,52 @@ function crearCorazones() {
         document.body.appendChild(corazon);
     }
 }
+
+// Función para crear la lluvia de corazones
+function crearLluviaConstante() {
+    const emojis = ['❤️', '💝', '💖', '💗'];
+    
+    function crearCorazon() {
+        const corazon = document.createElement('div');
+        corazon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        corazon.className = 'corazon-lluvia';
+        corazon.style.left = `${Math.random() * 100}vw`;
+        corazon.style.animationDuration = `${Math.random() * 3 + 4}s`; // Entre 4 y 7 segundos
+        corazon.style.opacity = (Math.random() * 0.4 + 0.1).toString(); // Opacidad entre 0.1 y 0.5
+        corazon.style.fontSize = `${Math.random() * 15 + 10}px`; // Tamaño entre 10px y 25px
+        document.body.appendChild(corazon);
+
+        // Eliminar el corazón después de que termine la animación
+        corazon.addEventListener('animationend', () => {
+            corazon.remove();
+        });
+    }
+
+    // Crear un nuevo corazón cada 300ms
+    return setInterval(crearCorazon, 300);
+}
+
+// Agregar los estilos necesarios
+const styleSheet = document.createElement('style');
+styleSheet.textContent += `
+    .corazon-lluvia {
+        position: fixed;
+        top: -20px;
+        z-index: -1;
+        pointer-events: none;
+        animation: caerLento linear forwards;
+    }
+
+    @keyframes caerLento {
+        0% {
+            transform: translateY(-20px) rotate(0deg);
+        }
+        100% {
+            transform: translateY(120vh) rotate(360deg);
+        }
+    }
+`;
+document.head.appendChild(styleSheet);
 
 // Estilos de animación
 const styleSheet = document.createElement('style');
