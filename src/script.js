@@ -73,9 +73,12 @@ function iniciarContador() {
                     })
                 });
             }
+            return Promise.resolve(data);
         })
-        .then(() => {
-            iniciarActualizacionContador();
+        .then((data) => {
+            if (data.fecha_final) {
+                iniciarActualizacionContador();
+            }
         })
         .catch(error => {
             console.error("Error al iniciar contador:", error);
@@ -110,10 +113,6 @@ function iniciarActualizacionContador() {
                     document.getElementById('horas').textContent = String(horas).padStart(2, '0');
                     document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
                     document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
-
-                    if (minutos % 15 === 0 && segundos === 0) {
-                        agregarCorazonesFlotantes();
-                    }
                 }
             })
             .catch(error => {
@@ -121,8 +120,8 @@ function iniciarActualizacionContador() {
             });
     }
 
+    actualizarContador(); // Ejecutar inmediatamente
     const intervalo = setInterval(actualizarContador, 1000);
-    actualizarContador();
 }
 
 function mostrarPreguntaFinal() {

@@ -1,25 +1,20 @@
 let contador = null;
 
 exports.handler = async function(event, context) {
-    try {
-        // Añadir headers CORS
-        const headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS'
-        };
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS'
+    };
 
-        // Manejar preflight requests
+    try {
         if (event.httpMethod === 'OPTIONS') {
-            return {
-                statusCode: 200,
-                headers,
-                body: ''
-            };
+            return { statusCode: 200, headers, body: '' };
         }
 
         switch (event.httpMethod) {
             case 'GET':
+                // Si no hay contador iniciado, devolver objeto vacío
                 return {
                     statusCode: 200,
                     headers,
@@ -28,6 +23,7 @@ exports.handler = async function(event, context) {
 
             case 'POST':
                 const data = JSON.parse(event.body);
+                // Guardar la fecha final
                 contador = {
                     fecha_final: data.fechaFinal,
                     iniciado: true
@@ -35,7 +31,7 @@ exports.handler = async function(event, context) {
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({ success: true })
+                    body: JSON.stringify({ success: true, data: contador })
                 };
 
             case 'DELETE':
@@ -56,9 +52,7 @@ exports.handler = async function(event, context) {
     } catch (error) {
         return {
             statusCode: 500,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
+            headers,
             body: JSON.stringify({ error: error.message })
         };
     }
