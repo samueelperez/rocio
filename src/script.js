@@ -11,7 +11,11 @@ function verificarNombre() {
             document.getElementById('contador').style.display = 'block';
             setTimeout(() => {
                 document.getElementById('contador').style.opacity = '1';
-                iniciarContador();
+                if (window.contadorActivo) {
+                    iniciarActualizacionContador();
+                } else {
+                    iniciarContador();
+                }
             }, 100);
         }, 1000);
     } else {
@@ -187,6 +191,10 @@ function verificarRespuesta() {
 
 // Actualizar la verificación al cargar la página
 window.addEventListener('load', () => {
+    document.getElementById('verificacion').style.display = 'block';
+    document.getElementById('verificacion').style.opacity = '1';
+    document.getElementById('contador').style.display = 'none';
+    
     fetch('/.netlify/functions/contador')
         .then(response => response.json())
         .then(data => {
@@ -196,16 +204,12 @@ window.addEventListener('load', () => {
                 const ahora = new Date().getTime();
                 const diferencia = fechaFinal - ahora;
                 
-                if (diferencia > 0) {
-                    document.getElementById('verificacion').style.display = 'none';
-                    document.getElementById('contador').style.display = 'block';
-                    document.getElementById('contador').style.opacity = '1';
-                    iniciarActualizacionContador();
-                } else {
+                if (diferencia <= 0) {
                     fetch('/.netlify/functions/contador', {
                         method: 'DELETE'
                     });
-                    mostrarPreguntaFinal();
+                } else {
+                    window.contadorActivo = true;
                 }
             }
         })
