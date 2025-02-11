@@ -162,16 +162,71 @@ function manejarRespuesta(respuesta) {
   
     setTimeout(() => {
         document.getElementById('pregunta').style.display = 'none';
+        const mensajeIntermedio = document.createElement('div');
+        mensajeIntermedio.className = 'container mensaje-intermedio';
+        mensajeIntermedio.style.opacity = '0';
+
+        if (respuesta === 'si') {
+            mensajeIntermedio.innerHTML = `
+                <h2 class="texto-animado">Seguro que no era como yo... 😏</h2>
+                <button id="btnContinuar" class="boton-respuesta">Continuar ❤️</button>
+            `;
+        } else {
+            mensajeIntermedio.innerHTML = `
+                <h2 class="texto-animado">Pues yo tampoco te voy a pedir salir...</h2>
+                <h2 class="texto-animado segundo-texto" style="opacity: 0;">Pero voy a ser diferente...</h2>
+                <button id="btnCarta" class="boton-respuesta" style="opacity: 0;">Carta Para Roro 💌</button>
+            `;
+        }
+
+        document.body.appendChild(mensajeIntermedio);
+
+        setTimeout(() => {
+            mensajeIntermedio.style.opacity = '1';
+            
+            if (respuesta === 'no') {
+                setTimeout(() => {
+                    const segundoTexto = mensajeIntermedio.querySelector('.segundo-texto');
+                    segundoTexto.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        const btnCarta = mensajeIntermedio.querySelector('#btnCarta');
+                        btnCarta.style.opacity = '1';
+                        btnCarta.addEventListener('click', mostrarCarta);
+                    }, 2000);
+                }, 2000);
+            } else {
+                const btnContinuar = mensajeIntermedio.querySelector('#btnContinuar');
+                btnContinuar.addEventListener('click', mostrarPropuesta);
+            }
+        }, 100);
+    }, 1000);
+}
+
+function mostrarCarta() {
+    document.querySelector('.mensaje-intermedio').style.opacity = '0';
+    setTimeout(() => {
+        document.querySelector('.mensaje-intermedio').remove();
         document.getElementById('segundaPantalla').style.display = 'block';
         setTimeout(() => {
             document.getElementById('segundaPantalla').style.opacity = '1';
-            if (respuesta === 'no') {
-                document.getElementById('mensajeFinal').textContent = 
-                    'Pues ha llegado el momento... ¿Quieres ser mi novia? 💝';
-            } else {
-                document.getElementById('mensajeFinal').textContent = 
-                    'Pues olvídate de todos, porque ahora... ¿Quieres ser mi novia? 💝';
-            }
+            document.getElementById('mensajeFinal').textContent = 
+                'Pues ha llegado el momento... ¿Quieres ser mi novia? 💝';
+            crearCorazones();
+            crearBrillo();
+        }, 100);
+    }, 1000);
+}
+
+function mostrarPropuesta() {
+    document.querySelector('.mensaje-intermedio').style.opacity = '0';
+    setTimeout(() => {
+        document.querySelector('.mensaje-intermedio').remove();
+        document.getElementById('segundaPantalla').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('segundaPantalla').style.opacity = '1';
+            document.getElementById('mensajeFinal').textContent = 
+                'Pues olvídate de todos, porque ahora... ¿Quieres ser mi novia? 💝';
             crearCorazones();
             crearBrillo();
         }, 100);
@@ -277,6 +332,15 @@ function crearLluviaConstante() {
 // Agregar los estilos necesarios
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
+    html, body {
+        touch-action: none;
+        -ms-touch-action: none;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+
     @keyframes latido {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
@@ -343,6 +407,28 @@ styleSheet.textContent = `
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(255,107,107,0.4);
     }
+
+    .mensaje-intermedio {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .texto-animado {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 1s ease;
+    }
+
+    .segundo-texto {
+        transition: opacity 1s ease 1s;
+    }
+
+    #btnCarta {
+        transition: opacity 1s ease;
+    }
 `;
 document.head.appendChild(styleSheet);
 
@@ -381,6 +467,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Prevenir zoom con gestos
     document.addEventListener('gesturestart', function(e) {
         e.preventDefault();
+    });
+
+    // Prevenir zoom en iOS
+    document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevenir zoom con doble tap
+    let lastTap = 0;
+    document.addEventListener('touchend', function(e) {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 500 && tapLength > 0) {
+            e.preventDefault();
+        }
+        lastTap = currentTime;
     });
 
     // Prevenir zoom con teclas (Ctrl + rueda del ratón o Ctrl + +/-)
