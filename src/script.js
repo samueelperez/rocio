@@ -165,6 +165,8 @@ function mostrarPreguntaFinal() {
     document.getElementById('contador').style.opacity = '0';
     setTimeout(() => {
         document.getElementById('contador').style.display = 'none';
+        const pregunta = document.querySelector('#pregunta p');
+        pregunta.className = 'pregunta-especial';
         document.getElementById('pregunta').style.display = 'block';
         setTimeout(() => {
             document.getElementById('pregunta').style.opacity = '1';
@@ -417,6 +419,9 @@ function crearLluviaConstante() {
 // Agregar los estilos necesarios
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+
     body::before {
         content: '';
         position: fixed;
@@ -539,12 +544,12 @@ styleSheet.textContent = `
         text-align: center;
         opacity: 0;
         transition: opacity 1.5s ease;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         z-index: 1000;
         width: 90%;
         max-width: 600px;
-        font-weight: 600;
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
         letter-spacing: 1px;
         padding: 20px;
         will-change: opacity;
@@ -608,6 +613,15 @@ styleSheet.textContent = `
         pointer-events: none;
         z-index: 1000;
         transition: all 2s ease-out;
+    }
+
+    .pregunta-especial {
+        font-family: 'Dancing Script', cursive;
+        font-size: clamp(32px, 7vw, 48px);
+        color: #ff6b6b;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 6px rgba(255, 107, 107, 0.3);
+        font-weight: 700;
     }
 `;
 document.head.appendChild(styleSheet);
