@@ -594,19 +594,13 @@ styleSheet.textContent = `
         width: 90%;
         position: relative;
         overflow: hidden;
-        animation: brillarContainer 2s infinite;
-    }
-
-    @keyframes brillarContainer {
-        0% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.2); }
-        50% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.4); }
-        100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.2); }
     }
 
     .mensaje-amor {
         margin-top: 20px;
         font-size: 18px;
         color: #ff6b6b;
+        font-weight: 500;
     }
 
     .botones-container {
@@ -750,7 +744,7 @@ styleSheet.textContent = `
     .sobre-container {
         position: fixed;
         left: 50%;
-        top: 45%;
+        top: 55%;
         transform: translate(-50%, -50%);
         width: min(280px, 90vw);
         height: min(180px, 50vh);
@@ -799,7 +793,7 @@ styleSheet.textContent = `
     .carta {
         position: absolute;
         left: 50%;
-        top: 0;
+        bottom: 0;
         transform: translateX(-50%);
         width: min(260px, 80vw);
         background: white;
@@ -812,11 +806,11 @@ styleSheet.textContent = `
         font-size: clamp(12px, 3vw, 14px);
         line-height: 1.6;
         color: #333;
-        max-height: 50vh;
+        max-height: 45vh;
         overflow-y: auto;
         text-align: left;
         margin: 0;
-        transform-origin: bottom center;
+        transform-origin: center bottom;
     }
 
     .carta p {
@@ -831,12 +825,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -105%);
+        transform: translate(-50%, -120%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -105%); }
-        50% { transform: translate(-50%, -110%); }
+        0%, 100% { transform: translate(-50%, -120%); }
+        50% { transform: translate(-50%, -125%); }
     }
 
     .carta.animada {
@@ -877,7 +871,7 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -105%); }
+        0% { transform: translate(-50%, -120%); }
         100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
@@ -944,13 +938,14 @@ styleSheet.textContent = `
         .carta {
             width: min(380px, 70vw);
             font-size: 16px;
-            max-height: 60vh;
+            max-height: 50vh;
             padding: 40px;
         }
 
         .sobre-container {
             width: min(320px, 80vw);
             height: min(200px, 45vh);
+            top: 60%;
         }
     }
 
