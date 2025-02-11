@@ -742,6 +742,7 @@ styleSheet.textContent = `
         height: 180px;
         perspective: 1000px;
         z-index: 1000;
+        margin-top: 20px;
     }
 
     .sobre {
@@ -785,9 +786,9 @@ styleSheet.textContent = `
     .carta {
         position: absolute;
         left: 50%;
-        top: -20px;
+        bottom: 50%;
         transform: translateX(-50%);
-        width: 280px;
+        width: min(280px, 85vw);
         background: white;
         padding: 30px;
         border-radius: 8px;
@@ -795,13 +796,13 @@ styleSheet.textContent = `
         opacity: 0;
         transition: all 1.5s ease;
         font-family: 'Playfair Display', serif;
-        font-size: 14px;
+        font-size: clamp(13px, 3.5vw, 14px);
         line-height: 1.6;
         color: #333;
-        max-height: 70vh;
+        max-height: 60vh;
         overflow-y: auto;
         text-align: left;
-        margin-bottom: 20px;
+        margin: 0;
         transform-origin: bottom center;
     }
 
@@ -817,12 +818,12 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -105%);
+        transform: translate(-50%, -120%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -105%); }
-        50% { transform: translate(-50%, -110%); }
+        0%, 100% { transform: translate(-50%, -120%); }
+        50% { transform: translate(-50%, -125%); }
     }
 
     .carta.animada {
@@ -840,6 +841,11 @@ styleSheet.textContent = `
         padding: 30px;
         background-color: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        overflow: hidden;
         animation: brillarContainer 2s infinite;
     }
 
@@ -883,7 +889,7 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -105%); }
+        0% { transform: translate(-50%, -120%); }
         100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
@@ -948,14 +954,15 @@ styleSheet.textContent = `
 
     @media (min-width: 768px) {
         .carta {
-            width: 400px;
+            width: min(400px, 85vw);
             font-size: 16px;
-            max-height: 75vh;
+            max-height: 65vh;
         }
 
         .sobre-container {
             width: 320px;
             height: 200px;
+            margin-top: 30px;
         }
     }
 
