@@ -331,6 +331,30 @@
                 font-size: 12px;
             }
         }
+
+        .botones-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .boton-respuesta {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulsar 1.5s infinite;
+        }
+
+        .boton-respuesta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
     </style>
 </head>
 <body>
@@ -362,22 +386,23 @@
                 <span class="label">Segundos</span>
             </div>
         </div>
-        <p class="mensaje-amor">Para poder ver tu sorpresa especial... 💝</p>
+        <p class="mensaje-amor">Para poder ver algo especial... 💝</p>
     </div>
 
     <div class="container" id="pregunta" style="display: none;">
-        <h2>Mi princesa...</h2>
-        <p>¿Quieres ser mi novia?</p>
-        <p style="font-size: 14px; color: #888;">Pista: La respuesta correcta es "sí" 😊</p>
-        <input type="text" id="respuesta" placeholder="Tu respuesta aquí...">
-        <br>
-        <button id="btnResponder">💝 Responder 💝</button>
+        <h2>Una pregunta... 💭</h2>
+        <p>¿Alguna vez alguien te ha pedido salir?</p>
+        <div class="botones-container">
+            <button id="btnSi" class="boton-respuesta">Sí</button>
+            <button id="btnNo" class="boton-respuesta">No</button>
+        </div>
     </div>
 
     <div class="container" id="segundaPantalla" style="display: none;">
         <h2>¡Mi corazón es tuyo! ❤️</h2>
         <p id="mensajeFinal">Sabía que dirías que sí. Te quiero muchísimo.</p>
         <p style="font-size: 24px;">👩‍❤️‍👨</p>
+        <button id="btnReiniciar" style="margin-top: 20px;">🔄 Reiniciar</button>
     </div>
 
     <script src="./src/main.js" type="module"></script>

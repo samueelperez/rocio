@@ -65,9 +65,7 @@ function iniciarContador() {
             console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 
-                    (4 * 24 * 60 * 60 * 1000) + // 4 días
-                    (20 * 60 * 60 * 1000);      // 20 horas
+                const tiempoTotal = 6000; // 6 segundos para pruebas
                 
                 const fechaFinal = fechaInicio.getTime() + tiempoTotal;
                 
@@ -175,31 +173,25 @@ function mostrarPreguntaFinal() {
     }, 1000);
 }
 
-function verificarRespuesta() {
-    const respuesta = document.getElementById('respuesta').value.toLowerCase().trim();
-    const respuestasCorrectas = ['si', 'sí', 'yes', 'claro', 'por supuesto'];
-
-    if (respuestasCorrectas.includes(respuesta)) {
-        document.getElementById('pregunta').style.opacity = '0';
+function manejarRespuesta(respuesta) {
+    document.getElementById('pregunta').style.opacity = '0';
+  
+    setTimeout(() => {
+        document.getElementById('pregunta').style.display = 'none';
+        document.getElementById('segundaPantalla').style.display = 'block';
         setTimeout(() => {
-            document.getElementById('pregunta').style.display = 'none';
-            document.getElementById('segundaPantalla').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('segundaPantalla').style.opacity = '1';
-                crearCorazones();
-                crearBrillo();
-            }, 100);
-        }, 1000);
-    } else {
-        sacudirInput();
-        Swal.fire({
-            title: '💔 ¿Estás segura?',
-            text: '¡Piénsalo bien, mi amor!',
-            icon: 'question',
-            confirmButtonText: 'Intentar de nuevo',
-            confirmButtonColor: '#ff6b6b'
-        });
-    }
+            document.getElementById('segundaPantalla').style.opacity = '1';
+            if (respuesta === 'no') {
+                document.getElementById('mensajeFinal').textContent = 
+                    'Pues ha llegado el momento... ¿Quieres ser mi novia? 💝';
+            } else {
+                document.getElementById('mensajeFinal').textContent = 
+                    'Pues olvídate de todos, porque ahora... ¿Quieres ser mi novia? 💝';
+            }
+            crearCorazones();
+            crearBrillo();
+        }, 100);
+    }, 1000);
 }
 
 // Actualizar la verificación al cargar la página
@@ -343,6 +335,30 @@ styleSheet.textContent = `
         opacity: 0;
         transition: opacity 1s ease;
     }
+
+    .botones-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .boton-respuesta {
+        padding: 15px 40px;
+        font-size: 18px;
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: pulsar 1.5s infinite;
+    }
+
+    .boton-respuesta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    }
 `;
 document.head.appendChild(styleSheet);
 
@@ -366,8 +382,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnVerificar')
         .addEventListener('click', verificarNombre);
     
-    document.getElementById('btnResponder')
-        .addEventListener('click', verificarRespuesta);
+    document.getElementById('btnSi')
+        .addEventListener('click', () => manejarRespuesta('si'));
+    
+    document.getElementById('btnNo')
+        .addEventListener('click', () => manejarRespuesta('no'));
+
+    document.getElementById('btnReiniciar')
+        .addEventListener('click', () => {
+            localStorage.removeItem('yaHaVisitado');
+            window.location.reload();
+        });
 
     // Prevenir zoom con gestos
     document.addEventListener('gesturestart', function(e) {
