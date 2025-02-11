@@ -65,7 +65,7 @@ function iniciarContador() {
             console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 6000; // 6 segundos para pruebas
+                const tiempoTotal = 9000; // 9 segundos exactos
                 
                 const fechaFinal = fechaInicio.getTime() + tiempoTotal;
                 
