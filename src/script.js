@@ -586,13 +586,27 @@ styleSheet.textContent = `
     }
 
     .container {
-        opacity: 1;
-        transition: opacity 1s ease;
+        text-align: center;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        overflow: hidden;
+        animation: brillarContainer 2s infinite;
     }
 
-    #pregunta, #segundaPantalla {
-        opacity: 0;
-        transition: opacity 1s ease;
+    @keyframes brillarContainer {
+        0% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.2); }
+        50% { box-shadow: 0 0 40px rgba(255, 107, 107, 0.4); }
+        100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.2); }
+    }
+
+    .mensaje-amor {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #ff6b6b;
     }
 
     .botones-container {
@@ -736,13 +750,12 @@ styleSheet.textContent = `
     .sobre-container {
         position: fixed;
         left: 50%;
-        top: 50%;
+        top: 45%;
         transform: translate(-50%, -50%);
-        width: 280px;
-        height: 180px;
+        width: min(280px, 90vw);
+        height: min(180px, 50vh);
         perspective: 1000px;
         z-index: 1000;
-        margin-top: 20px;
     }
 
     .sobre {
@@ -786,20 +799,20 @@ styleSheet.textContent = `
     .carta {
         position: absolute;
         left: 50%;
-        bottom: 50%;
+        top: 0;
         transform: translateX(-50%);
-        width: min(280px, 85vw);
+        width: min(260px, 80vw);
         background: white;
-        padding: 30px;
+        padding: min(30px, 5vh) min(30px, 5vw);
         border-radius: 8px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         opacity: 0;
         transition: all 1.5s ease;
         font-family: 'Playfair Display', serif;
-        font-size: clamp(13px, 3.5vw, 14px);
+        font-size: clamp(12px, 3vw, 14px);
         line-height: 1.6;
         color: #333;
-        max-height: 60vh;
+        max-height: 50vh;
         overflow-y: auto;
         text-align: left;
         margin: 0;
@@ -818,41 +831,16 @@ styleSheet.textContent = `
 
     .carta.visible {
         opacity: 1;
-        transform: translate(-50%, -120%);
+        transform: translate(-50%, -105%);
     }
 
     @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -120%); }
-        50% { transform: translate(-50%, -125%); }
+        0%, 100% { transform: translate(-50%, -105%); }
+        50% { transform: translate(-50%, -110%); }
     }
 
     .carta.animada {
         animation: flotar 3s ease-in-out infinite;
-    }
-
-    .mensaje-amor {
-        margin-top: 20px;
-        font-size: 18px;
-        color: #ff6b6b;
-    }
-
-    .container {
-        text-align: center;
-        padding: 30px;
-        background-color: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1);
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        overflow: hidden;
-        animation: brillarContainer 2s infinite;
-    }
-
-    @keyframes brillarContainer {
-        0% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
-        50% { box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4); }
-        100% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
     }
 
     .boton-cerrar {
@@ -889,7 +877,7 @@ styleSheet.textContent = `
     }
 
     @keyframes guardarCarta {
-        0% { transform: translate(-50%, -120%); }
+        0% { transform: translate(-50%, -105%); }
         100% { transform: translate(-50%, 50%); opacity: 0; }
     }
 
@@ -954,15 +942,15 @@ styleSheet.textContent = `
 
     @media (min-width: 768px) {
         .carta {
-            width: min(400px, 85vw);
+            width: min(380px, 70vw);
             font-size: 16px;
-            max-height: 65vh;
+            max-height: 60vh;
+            padding: 40px;
         }
 
         .sobre-container {
-            width: 320px;
-            height: 200px;
-            margin-top: 30px;
+            width: min(320px, 80vw);
+            height: min(200px, 45vh);
         }
     }
 
