@@ -185,16 +185,55 @@ function manejarRespuesta(respuesta) {
         mensajeIntermedio.style.opacity = '0';
 
         if (respuesta === 'si') {
-            mensajeIntermedio.innerHTML = `
-                <h2 class="texto-animado">Seguro que no era como yo... 😏</h2>
-                <button id="btnContinuar" class="boton-respuesta">Continuar ❤️</button>
-            `;
-            document.body.appendChild(mensajeIntermedio);
+            const primerMensaje = document.createElement('h2');
+            primerMensaje.className = 'mensaje-flotante';
+            primerMensaje.textContent = 'Pues yo voy a ser diferente...';
+            document.body.appendChild(primerMensaje);
+
             setTimeout(() => {
-                mensajeIntermedio.style.opacity = '1';
-                const btnContinuar = mensajeIntermedio.querySelector('#btnContinuar');
-                btnContinuar.addEventListener('click', mostrarPropuesta);
-            }, 100);
+                primerMensaje.style.opacity = '1';
+
+                setTimeout(() => {
+                    primerMensaje.style.opacity = '0';
+
+                    setTimeout(() => {
+                        primerMensaje.remove();
+                        const segundoMensaje = document.createElement('h2');
+                        segundoMensaje.className = 'mensaje-flotante';
+                        segundoMensaje.textContent = 'Yo no te voy a pedir salir...';
+                        document.body.appendChild(segundoMensaje);
+
+                        setTimeout(() => {
+                            segundoMensaje.style.opacity = '1';
+
+                            setTimeout(() => {
+                                segundoMensaje.style.opacity = '0';
+                                setTimeout(() => {
+                                    segundoMensaje.remove();
+                                    const contenedorBoton = document.createElement('div');
+                                    contenedorBoton.className = 'container-boton-carta';
+                                    contenedorBoton.innerHTML = `
+                                        <button id="btnCarta" class="boton-respuesta">Carta Para Roro 💌</button>
+                                    `;
+                                    document.body.appendChild(contenedorBoton);
+
+                                    setTimeout(() => {
+                                        contenedorBoton.style.opacity = '1';
+                                        const btnCarta = contenedorBoton.querySelector('#btnCarta');
+                                        btnCarta.addEventListener('click', () => {
+                                            contenedorBoton.style.opacity = '0';
+                                            setTimeout(() => {
+                                                contenedorBoton.remove();
+                                                mostrarCarta();
+                                            }, 1000);
+                                        });
+                                    }, 100);
+                                }, 1000);
+                            }, 2500);
+                        }, 500);
+                    }, 1500);
+                }, 2500);
+            }, 500);
         } else {
             const primerMensaje = document.createElement('h2');
             primerMensaje.className = 'mensaje-flotante';
@@ -218,26 +257,28 @@ function manejarRespuesta(respuesta) {
                             segundoMensaje.style.opacity = '1';
 
                             setTimeout(() => {
-                                const contenedorBoton = document.createElement('div');
-                                contenedorBoton.className = 'container-boton-carta';
-                                contenedorBoton.innerHTML = `
-                                    <button id="btnCarta" class="boton-respuesta">Carta Para Roro 💌</button>
-                                `;
-                                document.body.appendChild(contenedorBoton);
-
+                                segundoMensaje.style.opacity = '0';
                                 setTimeout(() => {
-                                    contenedorBoton.style.opacity = '1';
-                                    const btnCarta = contenedorBoton.querySelector('#btnCarta');
-                                    btnCarta.addEventListener('click', () => {
-                                        segundoMensaje.style.opacity = '0';
-                                        contenedorBoton.style.opacity = '0';
-                                        setTimeout(() => {
-                                            segundoMensaje.remove();
-                                            contenedorBoton.remove();
-                                            mostrarCarta();
-                                        }, 1500);
-                                    });
-                                }, 500);
+                                    segundoMensaje.remove();
+                                    const contenedorBoton = document.createElement('div');
+                                    contenedorBoton.className = 'container-boton-carta';
+                                    contenedorBoton.innerHTML = `
+                                        <button id="btnCarta" class="boton-respuesta">Carta Para Roro 💌</button>
+                                    `;
+                                    document.body.appendChild(contenedorBoton);
+
+                                    setTimeout(() => {
+                                        contenedorBoton.style.opacity = '1';
+                                        const btnCarta = contenedorBoton.querySelector('#btnCarta');
+                                        btnCarta.addEventListener('click', () => {
+                                            contenedorBoton.style.opacity = '0';
+                                            setTimeout(() => {
+                                                contenedorBoton.remove();
+                                                mostrarCarta();
+                                            }, 1000);
+                                        });
+                                    }, 100);
+                                }, 1000);
                             }, 2500);
                         }, 500);
                     }, 1500);
@@ -376,6 +417,17 @@ function crearLluviaConstante() {
 // Agregar los estilos necesarios
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+        z-index: -2;
+    }
+
     html, body {
         touch-action: none;
         -ms-touch-action: none;
@@ -383,6 +435,9 @@ styleSheet.textContent = `
         position: fixed;
         width: 100%;
         height: 100%;
+        margin: 0;
+        padding: 0;
+        background: transparent;
     }
 
     @keyframes latido {
@@ -484,16 +539,20 @@ styleSheet.textContent = `
         text-align: center;
         opacity: 0;
         transition: opacity 1.5s ease;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
         z-index: 1000;
         width: 90%;
         max-width: 600px;
-        font-weight: 500;
+        font-weight: 600;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         letter-spacing: 1px;
         padding: 20px;
         will-change: opacity;
         line-height: 1.4;
+        pointer-events: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
     }
 
     @media (max-width: 768px) {
@@ -501,6 +560,8 @@ styleSheet.textContent = `
             font-size: clamp(20px, 6vw, 28px);
             width: 85%;
             padding: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
         }
     }
 
@@ -515,11 +576,11 @@ styleSheet.textContent = `
     .container-boton-carta {
         position: fixed;
         left: 50%;
-        top: clamp(60%, 65%, 70%);
+        top: 50%;
         transform: translate(-50%, -50%);
         opacity: 0;
         transition: opacity 1.5s ease;
-        z-index: 1000;
+        z-index: 1001;
         width: 90%;
         max-width: 300px;
         text-align: center;
@@ -528,6 +589,17 @@ styleSheet.textContent = `
     .boton-respuesta {
         font-size: clamp(16px, 4vw, 20px);
         padding: clamp(12px, 3vw, 20px) clamp(25px, 5vw, 40px);
+        position: relative;
+        z-index: 1002;
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        transform: scale(1);
+        transition: all 0.3s ease;
+    }
+
+    .boton-respuesta:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(255,107,107,0.6);
     }
 
     .corazon-flotante {
