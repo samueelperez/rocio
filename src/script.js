@@ -98,7 +98,11 @@ function iniciarContador() {
             console.log('Datos recibidos:', data);
             if (!data || !data.fecha_final) {
                 const fechaInicio = new Date();
-                const tiempoTotal = 9; // 9 segundos
+                // Calcular el tiempo total en segundos (3 días, 8 horas, 37 minutos)
+                const dias = 3;
+                const horas = 8;
+                const minutos = 37;
+                const tiempoTotal = (dias * 24 * 60 * 60) + (horas * 60 * 60) + (minutos * 60);
                 
                 console.log('Iniciando contador de', tiempoTotal, 'segundos');
                 return fetch('/.netlify/functions/contador', {
@@ -149,12 +153,18 @@ function iniciarActualizacionContador() {
                         return;
                     }
 
-                    const segundos = Math.max(0, Math.ceil(segundosRestantes));
-                    const segundosMostrar = Math.min(9, segundos);
+                    const totalSegundos = Math.max(0, Math.floor(segundosRestantes));
+                    const dias = Math.floor(totalSegundos / (24 * 60 * 60));
+                    const horas = Math.floor((totalSegundos % (24 * 60 * 60)) / (60 * 60));
+                    const minutos = Math.floor((totalSegundos % (60 * 60)) / 60);
+                    const segundos = Math.floor(totalSegundos % 60);
 
-                    console.log(`Tiempo restante: ${segundos} segundos`);
+                    console.log(`Tiempo restante: ${dias}d ${horas}h ${minutos}m ${segundos}s`);
 
-                    document.getElementById('segundos').textContent = String(segundosMostrar).padStart(2, '0');
+                    document.getElementById('dias').textContent = String(dias).padStart(2, '0');
+                    document.getElementById('horas').textContent = String(horas).padStart(2, '0');
+                    document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
+                    document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
                 }
             })
             .catch(error => {
