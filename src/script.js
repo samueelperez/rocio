@@ -299,8 +299,14 @@ function mostrarCarta() {
             <div class="sobre-frente">💌</div>
         </div>
         <div class="carta">
-            <!-- Aquí irá el contenido de la carta -->
-            <p>Contenido de la carta...</p>
+            <p>Querida Roro,</p>
+            <p>Desde que te conocí, cada día ha sido especial. Tu sonrisa ilumina mi mundo de una manera que nunca pensé posible. Me encantan nuestras conversaciones, nuestras risas compartidas, y todos esos pequeños momentos que hacen que mi corazón lata más fuerte.</p>
+            <p>No quiero simplemente pedirte salir... quiero crear algo único y especial contigo. Quiero ser esa persona que te haga sonreír cada mañana, que te apoye en cada momento, y que construya junto a ti un futuro lleno de amor y felicidad.</p>
+            <p>Cada vez que te miro, veo no solo lo hermosa que eres por fuera, sino también la persona increíble que eres por dentro. Tu forma de ser, tu personalidad, todo en ti me hace querer ser mejor persona.</p>
+            <p>Por eso hoy, de esta manera especial, quiero preguntarte algo importante...</p>
+            <p style="font-weight: bold; margin-top: 30px;">¿Me darías la oportunidad de hacerte feliz?</p>
+            <p style="text-align: right; margin-top: 40px;">Con todo mi cariño,<br>Dani 💝</p>
+            <button id="btnCerrarCarta" class="boton-cerrar">Guardar en mi corazón ❤️</button>
         </div>
     `;
     document.body.appendChild(sobreContainer);
@@ -315,8 +321,92 @@ function mostrarCarta() {
 
             setTimeout(() => {
                 carta.classList.add('animada');
+                // Iniciar lluvia de corazones
                 crearCorazones();
+                // Detener la lluvia después de 3 segundos
+                setTimeout(() => {
+                    const corazones = document.querySelectorAll('.corazon-flotante');
+                    corazones.forEach(corazon => {
+                        corazon.style.opacity = '0';
+                        setTimeout(() => corazon.remove(), 1000);
+                    });
+                }, 3000);
+                
                 crearBrillo();
+
+                // Mostrar el botón de cerrar después de un momento
+                setTimeout(() => {
+                    const btnCerrar = sobreContainer.querySelector('#btnCerrarCarta');
+                    btnCerrar.classList.add('visible');
+                    
+                    btnCerrar.addEventListener('click', () => {
+                        // Quitar animación de flotado
+                        carta.classList.remove('animada');
+                        // Agregar animación de guardado
+                        carta.classList.add('guardando');
+                        
+                        setTimeout(() => {
+                            // Cerrar la solapa del sobre
+                            sobre.classList.remove('abierto');
+                            sobre.classList.add('cerrandose');
+                            
+                            setTimeout(() => {
+                                // Desvanecer todo el sobre
+                                sobreContainer.style.opacity = '0';
+                                setTimeout(() => {
+                                    sobreContainer.remove();
+                                    // Mostrar nuevos mensajes
+                                    const primerMensaje = document.createElement('h2');
+                                    primerMensaje.className = 'mensaje-flotante';
+                                    primerMensaje.textContent = 'Ahora te pregunto...';
+                                    document.body.appendChild(primerMensaje);
+
+                                    setTimeout(() => {
+                                        primerMensaje.style.opacity = '1';
+
+                                        setTimeout(() => {
+                                            primerMensaje.style.opacity = '0';
+                                            setTimeout(() => {
+                                                primerMensaje.remove();
+                                                const mensajeFinal = document.createElement('h2');
+                                                mensajeFinal.className = 'mensaje-flotante mensaje-propuesta';
+                                                mensajeFinal.textContent = 'Rocio Velasco, ¿quieres ser mi compañera de vida y empezar nuestra historia juntos?';
+                                                document.body.appendChild(mensajeFinal);
+
+                                                setTimeout(() => {
+                                                    mensajeFinal.style.opacity = '1';
+
+                                                    setTimeout(() => {
+                                                        const botonesContainer = document.createElement('div');
+                                                        botonesContainer.className = 'botones-respuesta-final';
+                                                        botonesContainer.innerHTML = `
+                                                            <button class="boton-respuesta-final aceptar">Claro que quiero</button>
+                                                            <button class="boton-respuesta-final rechazar">No, gracias</button>
+                                                        `;
+                                                        document.body.appendChild(botonesContainer);
+
+                                                        setTimeout(() => {
+                                                            botonesContainer.style.opacity = '1';
+                                                            
+                                                            // Agregar eventos a los botones
+                                                            botonesContainer.querySelector('.aceptar').addEventListener('click', () => {
+                                                                // Aquí puedes agregar lo que pasa cuando acepta
+                                                            });
+                                                            
+                                                            botonesContainer.querySelector('.rechazar').addEventListener('click', () => {
+                                                                // Aquí puedes agregar lo que pasa cuando rechaza
+                                                            });
+                                                        }, 100);
+                                                    }, 1000);
+                                                }, 100);
+                                            }, 1000);
+                                        }, 2000);
+                                    }, 100);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    });
+                }, 4000);
             }, 1500);
         }, 1000);
     }, 500);
@@ -696,17 +786,30 @@ styleSheet.textContent = `
         left: 50%;
         bottom: 100%;
         transform: translateX(-50%);
-        width: 90%;
+        width: 85%;
         background: white;
-        padding: 20px;
+        padding: 30px;
         border-radius: 8px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         opacity: 0;
         transition: all 1.5s ease;
         font-family: 'Playfair Display', serif;
-        font-size: clamp(16px, 4vw, 20px);
+        font-size: clamp(14px, 3.5vw, 18px);
         line-height: 1.6;
         color: #333;
+        max-height: 80vh;
+        overflow-y: auto;
+        text-align: left;
+    }
+
+    .carta p {
+        margin-bottom: 15px;
+    }
+
+    .carta p:first-child {
+        font-size: 1.2em;
+        color: #ff6b6b;
+        margin-bottom: 25px;
     }
 
     .carta.visible {
@@ -721,6 +824,128 @@ styleSheet.textContent = `
 
     .carta.animada {
         animation: flotar 3s ease-in-out infinite;
+    }
+
+    .mensaje-amor {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #ff6b6b;
+    }
+
+    .container {
+        text-align: center;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        overflow: hidden;
+        animation: brillar 2s infinite;
+    }
+
+    @keyframes brillar {
+        0% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
+        50% { box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4); }
+        100% { box-shadow: 0 10px 30px rgba(255, 107, 107, 0.1); }
+    }
+
+    .boton-cerrar {
+        display: block;
+        margin: 30px auto 10px;
+        padding: 15px 30px;
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: clamp(14px, 3vw, 16px);
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .boton-cerrar.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .boton-cerrar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    }
+
+    .carta.guardando {
+        animation: guardarCarta 1s ease-out forwards;
+    }
+
+    .sobre.cerrandose .sobre-solapa {
+        transform: rotateX(0deg);
+    }
+
+    @keyframes guardarCarta {
+        0% { transform: translate(-50%, -120%); }
+        100% { transform: translate(-50%, 0); opacity: 0; }
+    }
+
+    .mensaje-propuesta {
+        font-size: clamp(20px, 4.5vw, 32px) !important;
+        font-weight: 700 !important;
+        color: #ff6b6b !important;
+        text-shadow: 2px 2px 8px rgba(255, 107, 107, 0.3) !important;
+    }
+
+    .botones-respuesta-final {
+        position: fixed;
+        left: 50%;
+        top: 65%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 1000;
+    }
+
+    .boton-respuesta-final {
+        padding: clamp(12px, 3vw, 20px) clamp(25px, 5vw, 40px);
+        font-size: clamp(16px, 3.5vw, 20px);
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        color: white;
+    }
+
+    .boton-respuesta-final.aceptar {
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    }
+
+    .boton-respuesta-final.rechazar {
+        background: linear-gradient(45deg, #808080, #9e9e9e);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .boton-respuesta-final:hover {
+        transform: translateY(-3px);
+    }
+
+    .boton-respuesta-final.aceptar:hover {
+        box-shadow: 0 8px 20px rgba(255,107,107,0.6);
+    }
+
+    .boton-respuesta-final.rechazar:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 480px) {
+        .botones-respuesta-final {
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 `;
 document.head.appendChild(styleSheet);
