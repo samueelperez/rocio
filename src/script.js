@@ -42,19 +42,35 @@ function sacudirInput() {
 }
 
 function agregarCorazonesFlotantes() {
-    for (let i = 0; i < 5; i++) {
+    const cantidadCorazones = 8;
+    let corazonesCreados = 0;
+
+    function crearCorazon() {
         const corazon = document.createElement('div');
         corazon.innerHTML = '❤️';
         corazon.className = 'corazon-flotante';
         corazon.style.left = `${Math.random() * 80 + 10}%`;
-        corazon.style.top = `${Math.random() * 80 + 10}%`;
-        corazon.style.animationDelay = `${Math.random() * 2}s`;
+        corazon.style.bottom = '-50px';
+        corazon.style.opacity = '0';
         document.body.appendChild(corazon);
-        
+
         setTimeout(() => {
-            corazon.remove();
-        }, 3000);
+            corazon.style.opacity = '1';
+            corazon.style.transform = `translateY(-${Math.random() * 50 + 100}vh) rotate(${Math.random() * 360}deg)`;
+            
+            setTimeout(() => {
+                corazon.style.opacity = '0';
+                setTimeout(() => corazon.remove(), 1000);
+            }, 2000);
+        }, 50);
+
+        corazonesCreados++;
+        if (corazonesCreados < cantidadCorazones) {
+            setTimeout(crearCorazon, Math.random() * 300);
+        }
     }
+
+    crearCorazon();
 }
 
 function iniciarContador() {
@@ -152,7 +168,9 @@ function mostrarPreguntaFinal() {
         document.getElementById('pregunta').style.display = 'block';
         setTimeout(() => {
             document.getElementById('pregunta').style.opacity = '1';
-            agregarCorazonesFlotantes();
+            setTimeout(() => {
+                agregarCorazonesFlotantes();
+            }, 500);
         }, 100);
     }, 1000);
 }
@@ -185,7 +203,6 @@ function manejarRespuesta(respuesta) {
 
             setTimeout(() => {
                 primerMensaje.style.opacity = '1';
-                primerMensaje.style.transform = 'translateY(0)';
 
                 setTimeout(() => {
                     primerMensaje.style.opacity = '0';
@@ -200,7 +217,6 @@ function manejarRespuesta(respuesta) {
 
                         setTimeout(() => {
                             segundoMensaje.style.opacity = '1';
-                            segundoMensaje.style.transform = 'translateY(0)';
 
                             setTimeout(() => {
                                 const contenedorBoton = document.createElement('div');
@@ -220,14 +236,14 @@ function manejarRespuesta(respuesta) {
                                             segundoMensaje.remove();
                                             contenedorBoton.remove();
                                             mostrarCarta();
-                                        }, 1000);
+                                        }, 1500);
                                     });
-                                }, 100);
-                            }, 2000);
-                        }, 100);
-                    }, 1000);
-                }, 2000);
-            }, 100);
+                                }, 500);
+                            }, 2500);
+                        }, 500);
+                    }, 1500);
+                }, 2500);
+            }, 500);
         }
     }, 1000);
 }
@@ -463,16 +479,19 @@ styleSheet.textContent = `
         position: fixed;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, 20px);
+        transform: translate(-50%, -50%);
         color: white;
         font-size: 28px;
         text-align: center;
         opacity: 0;
-        transition: all 1s ease;
+        transition: opacity 1.5s ease;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         z-index: 1000;
         width: 90%;
         max-width: 600px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        padding: 20px;
     }
 
     .container-boton-carta {
@@ -481,8 +500,16 @@ styleSheet.textContent = `
         top: 65%;
         transform: translate(-50%, -50%);
         opacity: 0;
-        transition: opacity 1s ease;
+        transition: opacity 1.5s ease;
         z-index: 1000;
+    }
+
+    .corazon-flotante {
+        position: fixed;
+        font-size: 24px;
+        pointer-events: none;
+        z-index: 1000;
+        transition: all 2s ease-out;
     }
 `;
 document.head.appendChild(styleSheet);
