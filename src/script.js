@@ -171,35 +171,64 @@ function manejarRespuesta(respuesta) {
                 <h2 class="texto-animado">Seguro que no era como yo... 😏</h2>
                 <button id="btnContinuar" class="boton-respuesta">Continuar ❤️</button>
             `;
-        } else {
-            mensajeIntermedio.innerHTML = `
-                <h2 class="texto-animado">Pues yo tampoco te voy a pedir salir...</h2>
-                <h2 class="texto-animado segundo-texto" style="opacity: 0;">Pero voy a ser diferente...</h2>
-                <button id="btnCarta" class="boton-respuesta" style="opacity: 0;">Carta Para Roro 💌</button>
-            `;
-        }
-
-        document.body.appendChild(mensajeIntermedio);
-
-        setTimeout(() => {
-            mensajeIntermedio.style.opacity = '1';
-            
-            if (respuesta === 'no') {
-                setTimeout(() => {
-                    const segundoTexto = mensajeIntermedio.querySelector('.segundo-texto');
-                    segundoTexto.style.opacity = '1';
-                    
-                    setTimeout(() => {
-                        const btnCarta = mensajeIntermedio.querySelector('#btnCarta');
-                        btnCarta.style.opacity = '1';
-                        btnCarta.addEventListener('click', mostrarCarta);
-                    }, 2000);
-                }, 2000);
-            } else {
+            document.body.appendChild(mensajeIntermedio);
+            setTimeout(() => {
+                mensajeIntermedio.style.opacity = '1';
                 const btnContinuar = mensajeIntermedio.querySelector('#btnContinuar');
                 btnContinuar.addEventListener('click', mostrarPropuesta);
-            }
-        }, 100);
+            }, 100);
+        } else {
+            const primerMensaje = document.createElement('h2');
+            primerMensaje.className = 'mensaje-flotante';
+            primerMensaje.textContent = 'Pues yo tampoco te voy a pedir salir...';
+            document.body.appendChild(primerMensaje);
+
+            setTimeout(() => {
+                primerMensaje.style.opacity = '1';
+                primerMensaje.style.transform = 'translateY(0)';
+
+                setTimeout(() => {
+                    primerMensaje.style.opacity = '0';
+                    primerMensaje.style.transform = 'translateY(-20px)';
+
+                    setTimeout(() => {
+                        primerMensaje.remove();
+                        const segundoMensaje = document.createElement('h2');
+                        segundoMensaje.className = 'mensaje-flotante';
+                        segundoMensaje.textContent = 'Pero voy a ser diferente...';
+                        document.body.appendChild(segundoMensaje);
+
+                        setTimeout(() => {
+                            segundoMensaje.style.opacity = '1';
+                            segundoMensaje.style.transform = 'translateY(0)';
+
+                            setTimeout(() => {
+                                const contenedorBoton = document.createElement('div');
+                                contenedorBoton.className = 'container-boton-carta';
+                                contenedorBoton.innerHTML = `
+                                    <button id="btnCarta" class="boton-respuesta">Carta Para Roro 💌</button>
+                                `;
+                                document.body.appendChild(contenedorBoton);
+
+                                setTimeout(() => {
+                                    contenedorBoton.style.opacity = '1';
+                                    const btnCarta = contenedorBoton.querySelector('#btnCarta');
+                                    btnCarta.addEventListener('click', () => {
+                                        segundoMensaje.style.opacity = '0';
+                                        contenedorBoton.style.opacity = '0';
+                                        setTimeout(() => {
+                                            segundoMensaje.remove();
+                                            contenedorBoton.remove();
+                                            mostrarCarta();
+                                        }, 1000);
+                                    });
+                                }, 100);
+                            }, 2000);
+                        }, 100);
+                    }, 1000);
+                }, 2000);
+            }, 100);
+        }
     }, 1000);
 }
 
@@ -428,6 +457,32 @@ styleSheet.textContent = `
 
     #btnCarta {
         transition: opacity 1s ease;
+    }
+
+    .mensaje-flotante {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, 20px);
+        color: white;
+        font-size: 28px;
+        text-align: center;
+        opacity: 0;
+        transition: all 1s ease;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .container-boton-carta {
+        position: fixed;
+        left: 50%;
+        top: 65%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 1000;
     }
 `;
 document.head.appendChild(styleSheet);
