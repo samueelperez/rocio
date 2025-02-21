@@ -4,7 +4,7 @@ const pistas = [
     {
         titulo: "Primera Pista",
         texto: "¡Bienvenida a tu búsqueda del tesoro! 🌙 Donde mas tiempo pasamos juntos, donde siempre hay confianza maxima... ahí encontraras la siguiente pista 💝",
-        respuesta: "te quiero"
+        respuesta: "ABRIL"
     },
     {
         titulo: "¡Bien hecho! Segunda Pista",
@@ -14,7 +14,7 @@ const pistas = [
     {
         titulo: "¡Vas muy bien! Tercera Pista",
         texto: "Hay un armario con candado que guarda un secreto... pero antes de abrirlo, necesito que encuentres el código que hay delante de él 🔒",
-        respuesta: "AMOR"
+        respuesta: "ESPECIAL"
     },
     {
         titulo: "¡Última Pista!",
