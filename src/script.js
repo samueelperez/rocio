@@ -74,14 +74,17 @@ function mostrarPista() {
     
     if (pistaActual === 3) {
         inputRespuesta.style.display = 'none';
-        document.getElementById('btnSiguientePista').style.display = 'none';
-        setTimeout(() => {
-            mostrarFinal();
-        }, 3000);
+        const btnSiguientePista = document.getElementById('btnSiguientePista');
+        btnSiguientePista.textContent = '¡Encontré la llave! 🗝️';
+        btnSiguientePista.style.display = 'block';
+        btnSiguientePista.onclick = mostrarFinal;
     } else {
         inputRespuesta.style.display = 'block';
         inputRespuesta.value = '';
         inputRespuesta.focus();
+        const btnSiguientePista = document.getElementById('btnSiguientePista');
+        btnSiguientePista.textContent = '¡Lo encontré! 🔍';
+        btnSiguientePista.onclick = verificarRespuesta;
     }
 }
 
@@ -125,8 +128,8 @@ function verificarRespuesta() {
 
 function mostrarFinal() {
     Swal.fire({
-        title: '¡Lo has conseguido!',
-        text: '¡Has encontrado la llave! Ahora puedes abrir el candado del armario y descubrir tu sorpresa final... 💝',
+        title: 'Recuerda...',
+        text: 'Porque eres especial Rocio ❤️',
         icon: 'success',
         confirmButtonText: '¡Gracias!',
         confirmButtonColor: '#3a1c71'
