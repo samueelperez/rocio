@@ -45,7 +45,9 @@ function mostrarError(mensaje) {
         icon: 'error',
         confirmButtonText: 'Intentar de nuevo',
         confirmButtonColor: '#d76d77',
-        allowOutsideClick: false
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false
     }).then((result) => {
         if (result.isConfirmed) {
             const inputRespuesta = document.getElementById('respuestaPista');
@@ -53,6 +55,7 @@ function mostrarError(mensaje) {
                 inputRespuesta.value = '';
                 inputRespuesta.focus();
             }
+            mostrarPista();
         }
     });
 }
@@ -98,21 +101,18 @@ function mostrarPista() {
 }
 
 function verificarRespuesta() {
+    // Prevenir múltiples clics
+    document.getElementById('btnSiguientePista').disabled = true;
+    
     let respuesta = document.getElementById('respuestaPista').value.trim()
         .replace(/\s+/g, ' ')
         .replace(/[\n\r]/g, '');
     
     if (!respuesta) return;
     
-    // Convertir a minúsculas solo si no es la tercera pista
-    if (pistaActual !== 2) {
-        respuesta = respuesta.toLowerCase().trim();
-    }
-    
-    // Normalizar las respuestas esperadas
-    let respuestaEsperada = pistas[pistaActual].respuesta
-        .replace(/\s+/g, ' ')
-        .trim();
+    // Preparar respuestas para comparación
+    let respuestaUsuario = pistaActual === 2 ? respuesta : respuesta.toLowerCase();
+    let respuestaCorrecta = pistas[pistaActual].respuesta;
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
@@ -123,7 +123,10 @@ function verificarRespuesta() {
         mensajeError = '¡Código incorrecto! El código delante del armario debe estar en MAYÚSCULAS...';
     }
     
-    if (respuesta === respuestaEsperada) {
+    console.log('Respuesta usuario:', respuestaUsuario);
+    console.log('Respuesta correcta:', respuestaCorrecta);
+    
+    if (respuestaUsuario === respuestaCorrecta) {
         pistaActual++;
         
         if (pistaActual >= pistas.length) {
@@ -142,6 +145,11 @@ function verificarRespuesta() {
     } else {
         mostrarError(mensajeError);
     }
+    
+    // Reactivar el botón después de un breve delay
+    setTimeout(() => {
+        document.getElementById('btnSiguientePista').disabled = false;
+    }, 1000);
 }
 
 function mostrarFinal() {
