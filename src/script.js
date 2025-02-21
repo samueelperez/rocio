@@ -108,28 +108,15 @@ function mostrarPista() {
 
 function verificarRespuesta() {
     event.preventDefault();
-
     document.getElementById('btnSiguientePista').disabled = true;
     
     let respuestaUsuario = document.getElementById('respuestaPista').value || '';
     respuestaUsuario = respuestaUsuario.trim().toUpperCase();
-    
     let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase();
     
     if (!respuestaUsuario) {
         document.getElementById('btnSiguientePista').disabled = false;
         return;
-    }
-    
-    const pistaAnterior = pistaActual;
-    
-    let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
-    if (pistaActual === 0) {
-        mensajeError = '¡Código incorrecto! El mensaje sigue esperando ser descubierto... ¿Has buscado bien en el lugar donde descansas tus sueños? 🌙';
-    } else if (pistaActual === 1) {
-        mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
-    } else if (pistaActual === 2) {
-        mensajeError = '¡Código incorrecto! Revisa bien el código que hay delante del armario...';
     }
     
     if (respuestaUsuario === respuestaCorrecta) {
@@ -149,7 +136,14 @@ function verificarRespuesta() {
             });
         }
     } else {
-        pistaActual = pistaAnterior;
+        let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
+        if (pistaActual === 0) {
+            mensajeError = '¡Código incorrecto! El mensaje sigue esperando ser descubierto... ¿Has buscado bien en el lugar donde descansas tus sueños? 🌙';
+        } else if (pistaActual === 1) {
+            mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
+        } else if (pistaActual === 2) {
+            mensajeError = '¡Código incorrecto! Revisa bien el código que hay delante del armario...';
+        }
         mostrarError(mensajeError);
     }
     
