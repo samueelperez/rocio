@@ -18,7 +18,7 @@ const pistas = [
     },
     {
         titulo: "¡Última Pista!",
-        texto: "¡Enhorabuena! 🎉 Has encontrado la llave en tu bolso... ¡Ya puedes abrir el armario y descubrir tu sorpresa! 💝"
+        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Tu bolso guarda la llave para descubrir la sorpresa final 🗝️"
     }
 ];
 
@@ -75,6 +75,9 @@ function mostrarPista() {
     if (pistaActual === 3) {
         inputRespuesta.style.display = 'none';
         document.getElementById('btnSiguientePista').style.display = 'none';
+        setTimeout(() => {
+            mostrarFinal();
+        }, 3000);
     } else {
         inputRespuesta.style.display = 'block';
         inputRespuesta.value = '';
