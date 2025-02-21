@@ -101,26 +101,31 @@ function mostrarPista() {
 }
 
 function verificarRespuesta() {
-    // Prevenir múltiples clics
     document.getElementById('btnSiguientePista').disabled = true;
     
-    let respuesta = document.getElementById('respuestaPista').value;
-    console.log('Respuesta original:', respuesta);
-    
-    // Limpiar la respuesta
-    respuesta = respuesta.trim();
-    console.log('Respuesta después de trim:', respuesta);
-    
-    if (!respuesta) return;
-    
-    // Convertir ambas respuestas a mayúsculas y eliminar espacios extra
-    let respuestaUsuario = respuesta.toUpperCase().replace(/\s+/g, ' ');
-    let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase().replace(/\s+/g, ' ');
+    let respuestaUsuario = document.getElementById('respuestaPista').value || '';
+    respuestaUsuario = respuestaUsuario
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ');
+
+    let respuestaCorrecta = pistas[pistaActual].respuesta
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ');
     
     console.log('Pista actual:', pistaActual);
     console.log('Respuesta usuario (limpia):', respuestaUsuario);
     console.log('Respuesta correcta (limpia):', respuestaCorrecta);
     console.log('¿Son iguales?:', respuestaUsuario === respuestaCorrecta);
+    
+    if (!respuestaUsuario) {
+        document.getElementById('btnSiguientePista').disabled = false;
+        return;
+    }
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
@@ -153,7 +158,6 @@ function verificarRespuesta() {
         mostrarError(mensajeError);
     }
     
-    // Reactivar el botón después de un breve delay
     setTimeout(() => {
         document.getElementById('btnSiguientePista').disabled = false;
     }, 1000);
@@ -167,11 +171,9 @@ function mostrarFinal() {
         confirmButtonText: 'FIN ✨',
         confirmButtonColor: '#3a1c71'
     }).then(() => {
-        // Ocultar todas las pantallas anteriores
         document.getElementById('verificacion').style.display = 'none';
         document.getElementById('pista').style.display = 'none';
         
-        // Mostrar mensaje final con animación
         Swal.fire({
             title: 'Te quiero mucho ❤️',
             showConfirmButton: false,
@@ -187,12 +189,10 @@ function mostrarFinal() {
     });
 }
 
-// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnVerificar').addEventListener('click', verificarCodigo);
     document.getElementById('btnSiguientePista').addEventListener('click', verificarRespuesta);
     
-    // Permitir enviar con Enter
     document.getElementById('codigoInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') verificarCodigo();
     });
@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Efectos visuales
 function agregarCorazonesFlotantes() {
     const cantidadCorazones = 8;
     let corazonesCreados = 0;
@@ -235,7 +234,6 @@ function agregarCorazonesFlotantes() {
     crearCorazon();
 }
 
-// Ajustes para móviles
 window.addEventListener('orientationchange', () => {
     setTimeout(() => {
         window.scrollTo(0, 0);
