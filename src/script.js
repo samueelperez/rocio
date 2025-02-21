@@ -1,53 +1,58 @@
 const nombreCorrecto = 'rocio';
 
+// Definir las pistas del juego
+const pistas = [
+    {
+        titulo: "Primera Pista",
+        texto: "Para comenzar esta aventura, busca donde guardas tu bebida caliente favorita cada mañana... ¿Qué palabra encuentras?",
+        respuesta: "amor", // La palabra que estará en la taza
+        imagen: "/assets/pista1.jpg" // Opcional: imagen de ayuda
+    },
+    {
+        titulo: "¡Bien hecho! Segunda Pista",
+        texto: "El lugar donde los momentos dulces se guardan, y el frío mantiene todo en su lugar. Busca en la puerta del refrigerador...",
+        respuesta: "cocina",
+        imagen: "/assets/pista2.jpg"
+    },
+    {
+        titulo: "¡Vas muy bien! Tercera Pista",
+        texto: "Donde descansas tus sueños cada noche, debajo de tu almohada hay algo especial esperándote...",
+        respuesta: "dormitorio",
+        imagen: "/assets/pista3.jpg"
+    },
+    {
+        titulo: "¡Última Pista!",
+        texto: "El lugar donde guardas tus mejores outfits esconde el regalo final... ¡Búscalo!",
+        respuesta: "armario",
+        imagen: "/assets/pista4.jpg"
+    }
+];
+
+let pistaActual = 0;
+
 function verificarNombre() {
     const nombreIngresado = document.getElementById('nombreInput').value.toLowerCase().trim();
     
     if (nombreIngresado === nombreCorrecto) {
-        // Guardar que ya ha visitado la página
-        localStorage.setItem('yaHaVisitado', 'true');
-        
-        agregarCorazonesFlotantes();
         document.getElementById('verificacion').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('verificacion').style.display = 'none';
-            // Crear mensaje de bienvenida
-            const mensajeBienvenida = document.createElement('h2');
-            mensajeBienvenida.className = 'mensaje-flotante mensaje-bienvenida';
-            mensajeBienvenida.textContent = '¡Bienvenida Rocio! 💖';
-            document.body.appendChild(mensajeBienvenida);
-
-            setTimeout(() => {
-                mensajeBienvenida.style.opacity = '1';
-                
-                setTimeout(() => {
-                    mensajeBienvenida.style.opacity = '0';
-                    setTimeout(() => {
-                        mensajeBienvenida.remove();
-                        // Mostrar contador
-                        document.getElementById('contador').style.display = 'block';
-                        setTimeout(() => {
-                            document.getElementById('contador').style.opacity = '1';
-                            if (window.contadorActivo) {
-                                iniciarActualizacionContador();
-                            } else {
-                                iniciarContador();
-                            }
-                        }, 500);
-                    }, 1000);
-                }, 2000);
-            }, 100);
+            mostrarPista();
         }, 1000);
     } else {
         sacudirInput();
-        Swal.fire({
-            title: '💔 Lo siento...',
-            text: 'Esta página es solo para una personita especial',
-            icon: 'error',
-            confirmButtonText: 'Entiendo',
-            confirmButtonColor: '#ff6b6b'
-        });
+        mostrarError('¡Este juego es solo para una persona especial!');
     }
+}
+
+function mostrarError(mensaje) {
+    Swal.fire({
+        title: '¡Ups!',
+        text: mensaje,
+        icon: 'error',
+        confirmButtonText: 'Intentar de nuevo',
+        confirmButtonColor: '#d76d77'
+    });
 }
 
 function sacudirInput() {
@@ -57,6 +62,81 @@ function sacudirInput() {
         input.style.animation = '';
     }, 500);
 }
+
+function mostrarPista() {
+    const contenedorPista = document.getElementById('pista');
+    const tituloPista = contenedorPista.querySelector('.titulo-pista');
+    const textoPista = contenedorPista.querySelector('.texto-pista');
+    const imagenPista = contenedorPista.querySelector('.imagen-pista');
+    const inputRespuesta = document.getElementById('respuestaPista');
+    
+    contenedorPista.style.display = 'block';
+    setTimeout(() => {
+        contenedorPista.style.opacity = '1';
+        
+        tituloPista.textContent = pistas[pistaActual].titulo;
+        textoPista.textContent = pistas[pistaActual].texto;
+        
+        if (pistas[pistaActual].imagen) {
+            imagenPista.src = pistas[pistaActual].imagen;
+            imagenPista.style.display = 'block';
+        } else {
+            imagenPista.style.display = 'none';
+        }
+        
+        inputRespuesta.style.display = 'block';
+        inputRespuesta.value = '';
+    }, 100);
+}
+
+function verificarRespuesta() {
+    const respuesta = document.getElementById('respuestaPista').value.toLowerCase().trim();
+    
+    if (respuesta === pistas[pistaActual].respuesta) {
+        pistaActual++;
+        
+        if (pistaActual >= pistas.length) {
+            mostrarFinal();
+        } else {
+            Swal.fire({
+                title: '¡Correcto!',
+                text: '¡Has encontrado la pista! Vamos por la siguiente...',
+                icon: 'success',
+                confirmButtonText: 'Continuar',
+                confirmButtonColor: '#3a1c71'
+            }).then(() => {
+                mostrarPista();
+            });
+        }
+    } else {
+        mostrarError('Esa no es la respuesta correcta. ¡Sigue buscando!');
+    }
+}
+
+function mostrarFinal() {
+    Swal.fire({
+        title: '¡Lo has conseguido!',
+        text: '¡Has encontrado todas las pistas! Ahora ve al armario por tu sorpresa final...',
+        icon: 'success',
+        confirmButtonText: '¡Gracias!',
+        confirmButtonColor: '#3a1c71'
+    });
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('btnVerificar').addEventListener('click', verificarNombre);
+    document.getElementById('btnSiguientePista').addEventListener('click', verificarRespuesta);
+    
+    // Permitir enviar con Enter
+    document.getElementById('nombreInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verificarNombre();
+    });
+    
+    document.getElementById('respuestaPista').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verificarRespuesta();
+    });
+});
 
 function agregarCorazonesFlotantes() {
     const cantidadCorazones = 8;
@@ -698,665 +778,6 @@ function crearLluviaConstante() {
     // Crear un nuevo corazón cada 300ms
     return setInterval(crearCorazon, 300);
 }
-
-// Agregar los estilos necesarios
-const styleSheet = document.createElement('style');
-styleSheet.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
-
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-        z-index: -2;
-    }
-
-    html, body {
-        touch-action: none;
-        -ms-touch-action: none;
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: transparent;
-    }
-
-    @keyframes latido {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-
-    @keyframes caida {
-        0% { transform: translateY(-100vh) rotate(0deg); }
-        100% { transform: translateY(100vh) rotate(360deg); }
-    }
-
-    @keyframes sacudir {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-10px); }
-        75% { transform: translateX(10px); }
-    }
-
-    .corazon-lluvia {
-        position: fixed;
-        top: -20px;
-        z-index: -1;
-        pointer-events: none;
-        animation: caerLento linear forwards;
-    }
-
-    @keyframes caerLento {
-        0% {
-            transform: translateY(-20px) rotate(0deg);
-        }
-        100% {
-            transform: translateY(120vh) rotate(360deg);
-        }
-    }
-
-    .container {
-        text-align: center;
-        padding: 30px;
-        background-color: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .container h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(24px, 5vw, 32px);
-        color: #ff6b6b;
-        margin-bottom: 30px;
-        font-weight: 600;
-        line-height: 1.4;
-        text-shadow: 2px 2px 8px rgba(255, 107, 107, 0.2);
-        font-style: italic;
-    }
-
-    .mensaje-amor {
-        margin-top: 20px;
-        font-size: 18px;
-        color: #ff6b6b;
-        font-weight: 500;
-    }
-
-    #nombreInput {
-        font-family: 'Poppins', sans-serif;
-        font-size: clamp(16px, 4vw, 20px);
-        padding: 12px 20px;
-        border: 2px solid rgba(255, 107, 107, 0.4);
-        border-radius: 10px;
-        width: 80%;
-        max-width: 300px;
-        margin: 20px auto;
-        transition: all 0.3s ease;
-        background-color: rgba(255, 255, 255, 0.9);
-        text-align: center;
-        color: #ff6b6b;
-    }
-
-    #nombreInput:focus {
-        outline: none;
-        border-color: #ff6b6b;
-        box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
-        background-color: white;
-    }
-
-    #nombreInput::placeholder {
-        color: rgba(255, 107, 107, 0.6);
-        font-weight: 300;
-    }
-
-    .botones-container {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
-    }
-
-    .boton-respuesta {
-        padding: 15px 40px;
-        font-size: 18px;
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-        color: white;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        animation: pulsar 1.5s infinite;
-    }
-
-    .boton-respuesta:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
-    }
-
-    .mensaje-intermedio {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .texto-animado {
-        opacity: 1;
-        transform: translateY(0);
-        transition: all 1s ease;
-    }
-
-    .segundo-texto {
-        transition: opacity 1s ease 1s;
-    }
-
-    #btnVerificar {
-        margin-top: 25px;
-        padding: 12px 30px;
-        font-size: clamp(16px, 3.5vw, 18px);
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-        border: none;
-        border-radius: 25px;
-        color: white;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
-    }
-
-    #btnVerificar:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-        background: linear-gradient(45deg, #ff5f5f, #ff8282);
-    }
-
-    .mensaje-flotante {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: clamp(24px, 5vw, 36px);
-        text-align: center;
-        opacity: 0;
-        transition: opacity 1.5s ease;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-        z-index: 1000;
-        width: 90%;
-        max-width: 600px;
-        font-weight: 700;
-        font-family: 'Poppins', sans-serif;
-        letter-spacing: 1px;
-        padding: 20px;
-        will-change: opacity;
-        line-height: 1.4;
-        pointer-events: none;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-    }
-
-    @media (max-width: 768px) {
-        .mensaje-flotante {
-            font-size: clamp(20px, 6vw, 28px);
-            width: 85%;
-            padding: 15px;
-            font-weight: 700;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .mensaje-flotante {
-            font-size: clamp(18px, 5.5vw, 24px);
-            width: 80%;
-            padding: 10px;
-        }
-    }
-
-    .container-boton-carta {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 1.5s ease;
-        z-index: 1001;
-        width: 90%;
-        max-width: 300px;
-        text-align: center;
-    }
-
-    .boton-respuesta {
-        font-size: clamp(16px, 4vw, 20px);
-        padding: clamp(12px, 3vw, 20px) clamp(25px, 5vw, 40px);
-        position: relative;
-        z-index: 1002;
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
-        transform: scale(1);
-        transition: all 0.3s ease;
-    }
-
-    .boton-respuesta:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 20px rgba(255,107,107,0.6);
-    }
-
-    .corazon-flotante {
-        position: fixed;
-        font-size: 24px;
-        pointer-events: none;
-        z-index: 1000;
-        transition: all 2s ease-out;
-    }
-
-    .pregunta-especial {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(32px, 7vw, 48px);
-        color: #ff6b6b;
-        margin-bottom: 30px;
-        text-shadow: 2px 2px 6px rgba(255, 107, 107, 0.3);
-        font-weight: 700;
-        font-style: italic;
-        line-height: 1.3;
-    }
-
-    .sobre-container {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 280px;
-        height: 180px;
-        perspective: 1000px;
-        z-index: 1000;
-    }
-
-    .sobre {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, #ffecec, #ffe0e0);
-        border-radius: 10px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        transform-style: preserve-3d;
-        transition: transform 1s ease;
-    }
-
-    .sobre-frente {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-    }
-
-    .sobre-solapa {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background: linear-gradient(45deg, #ffd6d6, #ffbdbd);
-        transform-origin: top;
-        transition: transform 1s ease;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .sobre.abierto .sobre-solapa {
-        transform: rotateX(180deg);
-    }
-
-    .carta {
-        position: fixed;
-        left: 50%;
-        top: 50vh;
-        transform: translateX(-50%);
-        width: 280px;
-        background: white;
-        padding: min(30px, 5vh) min(30px, 5vw);
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        opacity: 0;
-        transition: all 1.5s ease;
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(12px, 3vw, 14px);
-        line-height: 1.6;
-        color: #333;
-        max-height: 70vh;
-        overflow-y: auto;
-        text-align: left;
-        margin: 0;
-        transform-origin: center bottom;
-    }
-
-    .carta p {
-        margin-bottom: 15px;
-    }
-
-    .carta p:first-child {
-        font-size: 1.2em;
-        color: #ff6b6b;
-        margin-bottom: 25px;
-    }
-
-    .carta.visible {
-        opacity: 1;
-        transform: translate(-50%, -100%);
-    }
-
-    @keyframes flotar {
-        0%, 100% { transform: translate(-50%, -100%); }
-        50% { transform: translate(-50%, -105%); }
-    }
-
-    .carta.animada {
-        animation: flotar 3s ease-in-out infinite;
-    }
-
-    .boton-cerrar {
-        display: block;
-        margin: 30px auto 10px;
-        padding: 15px 30px;
-        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-        color: white;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: clamp(14px, 3vw, 16px);
-        transition: all 0.3s ease;
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    .boton-cerrar.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .boton-cerrar:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
-    }
-
-    .carta.guardando {
-        animation: guardarCarta 1s ease-out forwards;
-    }
-
-    .sobre.cerrandose .sobre-solapa {
-        transform: rotateX(0deg);
-    }
-
-    @keyframes guardarCarta {
-        0% { transform: translate(-50%, -100%); }
-        100% { transform: translate(-50%, 50%); opacity: 0; }
-    }
-
-    .mensaje-propuesta {
-        font-family: 'Playfair Display', serif !important;
-        font-size: clamp(24px, 5vw, 36px) !important;
-        font-weight: 600 !important;
-        color: #ff4d6d !important;
-        text-shadow: 3px 3px 10px rgba(255, 77, 109, 0.4) !important;
-        line-height: 1.5 !important;
-        padding: 20px !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 20px !important;
-        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2) !important;
-        max-width: 90% !important;
-        margin: 0 auto !important;
-        backdrop-filter: blur(5px) !important;
-        border: 2px solid rgba(255, 77, 109, 0.3) !important;
-    }
-
-    .botones-respuesta-final {
-        position: fixed;
-        left: 50%;
-        top: 70%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        gap: 20px;
-        opacity: 0;
-        transition: all 1s ease;
-        z-index: 1000;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .boton-respuesta-final {
-        padding: 15px 40px;
-        font-size: clamp(16px, 3.5vw, 20px);
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 600;
-        color: white;
-        width: 250px;
-        margin: 10px 0;
-        font-family: 'Poppins', sans-serif;
-        letter-spacing: 0.5px;
-    }
-
-    .boton-respuesta-final.aceptar {
-        background: linear-gradient(45deg, #ff4d6d, #ff758c);
-        box-shadow: 0 5px 15px rgba(255,107,107,0.4);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .boton-respuesta-final.rechazar {
-        background: transparent;
-        border: 2px solid rgba(255, 77, 109, 0.5);
-        color: #ff4d6d;
-    }
-
-    .boton-respuesta-final:hover {
-        transform: translateY(-5px);
-    }
-
-    .boton-respuesta-final.aceptar:hover {
-        box-shadow: 0 8px 25px rgba(255, 77, 109, 0.6);
-        background: linear-gradient(45deg, #ff3d5d, #ff657c);
-    }
-
-    .boton-respuesta-final.rechazar:hover {
-        background: rgba(255, 77, 109, 0.1);
-        border-color: rgba(255, 77, 109, 0.7);
-    }
-
-    @media (max-width: 480px) {
-        .botones-respuesta-final {
-            flex-direction: column;
-            gap: 15px;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .carta {
-            width: 380px;
-            font-size: 16px;
-            max-height: 70vh;
-            padding: 40px;
-        }
-
-        .sobre-container {
-            width: 320px;
-            height: 200px;
-        }
-    }
-
-    .carta::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .carta::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-    }
-
-    .carta::-webkit-scrollbar-thumb {
-        background: #ff6b6b;
-        border-radius: 4px;
-    }
-
-    .carta::-webkit-scrollbar-thumb:hover {
-        background: #ff8e8e;
-    }
-
-    .mensaje-bienvenida {
-        position: fixed !important;
-        left: 50% !important;
-        top: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        font-family: 'Playfair Display', serif !important;
-        font-size: clamp(28px, 6vw, 42px) !important;
-        color: #ff4d6d !important;
-        text-shadow: 3px 3px 12px rgba(255, 77, 109, 0.5) !important;
-        font-weight: 700 !important;
-        letter-spacing: 1px !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        padding: 25px 40px !important;
-        border-radius: 20px !important;
-        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3) !important;
-        white-space: nowrap !important;
-        z-index: 1000 !important;
-        text-align: center !important;
-        opacity: 0;
-        transition: opacity 0.5s ease !important;
-    }
-
-    @keyframes aparecerBienvenida {
-        from {
-            transform: scale(0.9) translateY(20px);
-            opacity: 0;
-        }
-        to {
-            transform: scale(1) translateY(0);
-            opacity: 1;
-        }
-    }
-
-    .mensaje-confirmacion {
-        font-family: 'Playfair Display', serif !important;
-        font-size: clamp(28px, 5vw, 38px) !important;
-        color: #ff4d6d !important;
-        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.4) !important;
-    }
-
-    .contenedor-final {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        opacity: 0;
-        transition: opacity 1s ease;
-    }
-
-    .marco-foto {
-        position: relative;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(255, 77, 109, 0.3);
-        margin-bottom: 30px;
-        max-width: min(90vw, 500px);
-        margin: 0 auto 30px;
-        animation: flotar 3s ease-in-out infinite;
-    }
-
-    .foto-final {
-        width: 100%;
-        max-width: 400px;
-        border-radius: 15px;
-        display: block;
-        object-fit: cover;
-        height: auto;
-        margin: 0 auto;
-        max-height: 60vh;
-    }
-
-    .corazones-marco {
-        position: absolute;
-        inset: -15px;
-        border: 3px solid #ff4d6d;
-        border-radius: 25px;
-        z-index: -1;
-    }
-
-    .corazones-marco::before,
-    .corazones-marco::after {
-        content: '❤️';
-        position: absolute;
-        font-size: 24px;
-    }
-
-    .corazones-marco::before {
-        top: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .corazones-marco::after {
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .mensaje-final-amor {
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(20px, 4vw, 28px);
-        color: #ff4d6d;
-        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3);
-        margin-top: 20px;
-        font-weight: 600;
-        animation: brillarTexto 2s infinite;
-    }
-
-    @keyframes brillarTexto {
-        0%, 100% { text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.3); }
-        50% { text-shadow: 2px 2px 12px rgba(255, 77, 109, 0.6); }
-    }
-
-    .mensaje-error {
-        font-family: 'Playfair Display', serif !important;
-        font-size: clamp(24px, 5vw, 34px) !important;
-        color: #ff4d6d !important;
-        text-shadow: 2px 2px 8px rgba(255, 77, 109, 0.4) !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        padding: 20px 30px !important;
-        border-radius: 15px !important;
-        box-shadow: 0 5px 20px rgba(255, 77, 109, 0.2) !important;
-        animation: aparecer 0.5s ease-out forwards !important;
-    }
-
-    @keyframes aparecer {
-        from {
-            transform: scale(0.9);
-            opacity: 0;
-        }
-        to {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-`;
-document.head.appendChild(styleSheet);
 
 // Ajustes para móviles
 window.addEventListener('orientationchange', () => {
