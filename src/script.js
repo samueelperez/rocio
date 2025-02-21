@@ -70,33 +70,26 @@ function mostrarPista() {
     const imagenPista = contenedorPista.querySelector('.imagen-pista');
     const inputRespuesta = document.getElementById('respuestaPista');
     
-    contenedorPista.style.opacity = '0';
-    contenedorPista.style.transform = 'translateY(20px)';
     contenedorPista.style.display = 'block';
+    contenedorPista.style.opacity = '1';
     window.scrollTo(0, 0);
     
-    setTimeout(() => {
-        contenedorPista.style.transition = 'all 0.5s ease';
-        contenedorPista.style.transform = 'translateY(0)';
-        contenedorPista.style.opacity = '1';
-        
-        tituloPista.textContent = pistas[pistaActual].titulo;
-        textoPista.textContent = pistas[pistaActual].texto;
-        
-        if (pistas[pistaActual].imagen) {
-            imagenPista.src = pistas[pistaActual].imagen;
-            imagenPista.style.display = 'block';
-            imagenPista.onload = () => {
-                window.scrollTo(0, 0);
-            };
-        } else {
-            imagenPista.style.display = 'none';
-        }
-        
-        inputRespuesta.style.display = 'block';
-        inputRespuesta.value = '';
-        inputRespuesta.focus();
-    }, 100);
+    tituloPista.textContent = pistas[pistaActual].titulo;
+    textoPista.textContent = pistas[pistaActual].texto;
+    
+    if (pistas[pistaActual].imagen) {
+        imagenPista.src = pistas[pistaActual].imagen;
+        imagenPista.style.display = 'block';
+        imagenPista.onload = () => {
+            window.scrollTo(0, 0);
+        };
+    } else {
+        imagenPista.style.display = 'none';
+    }
+    
+    inputRespuesta.style.display = 'block';
+    inputRespuesta.value = '';
+    inputRespuesta.focus();
 }
 
 function verificarRespuesta() {
