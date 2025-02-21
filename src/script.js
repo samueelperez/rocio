@@ -55,7 +55,6 @@ function mostrarError(mensaje) {
                 inputRespuesta.value = '';
                 inputRespuesta.focus();
             }
-            mostrarPista();
         }
     });
 }
@@ -104,18 +103,9 @@ function verificarRespuesta() {
     document.getElementById('btnSiguientePista').disabled = true;
     
     let respuestaUsuario = document.getElementById('respuestaPista').value || '';
-    respuestaUsuario = respuestaUsuario
-        .trim()
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, ' ');
-
-    let respuestaCorrecta = pistas[pistaActual].respuesta
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, ' ');
+    respuestaUsuario = respuestaUsuario.trim().toUpperCase();
+    
+    let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase();
     
     console.log('Pista actual:', pistaActual);
     console.log('Respuesta usuario (limpia):', respuestaUsuario);
