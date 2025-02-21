@@ -34,11 +34,8 @@ function verificarCodigo() {
     
     if (codigoIngresado.toUpperCase() === codigoSecreto) {
         agregarCorazonesFlotantes();
-        document.getElementById('verificacion').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('verificacion').style.display = 'none';
-            mostrarPista();
-        }, 1000);
+        document.getElementById('verificacion').style.display = 'none';
+        mostrarPista();
     } else {
         sacudirInput();
         mostrarError('¡Código incorrecto! Busca bien en la mesa...');
@@ -71,7 +68,6 @@ function mostrarPista() {
     const inputRespuesta = document.getElementById('respuestaPista');
     
     contenedorPista.style.display = 'block';
-    contenedorPista.style.opacity = '1';
     window.scrollTo(0, 0);
     
     tituloPista.textContent = pistas[pistaActual].titulo;
