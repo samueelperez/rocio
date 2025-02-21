@@ -27,7 +27,7 @@ let pistaActual = 0;
 function verificarCodigo() {
     const codigoIngresado = document.getElementById('codigoInput').value.trim();
     
-    if (codigoIngresado.toUpperCase() === codigoSecreto) {
+    if (codigoIngresado.toUpperCase() === codigoSecreto.toUpperCase()) {
         agregarCorazonesFlotantes();
         document.getElementById('verificacion').style.animation = 'fadeIn 0.3s ease-out forwards';
         document.getElementById('verificacion').style.display = 'none';
@@ -111,8 +111,8 @@ function verificarRespuesta() {
     if (!respuesta) return;
     
     // Preparar respuestas para comparación
-    let respuestaUsuario = pistaActual === 2 ? respuesta : respuesta.toLowerCase();
-    let respuestaCorrecta = pistas[pistaActual].respuesta;
+    let respuestaUsuario = respuesta.toUpperCase();
+    let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase();
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
@@ -120,7 +120,7 @@ function verificarRespuesta() {
     } else if (pistaActual === 1) {
         mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
     } else if (pistaActual === 2) {
-        mensajeError = '¡Código incorrecto! El código delante del armario debe estar en MAYÚSCULAS...';
+        mensajeError = '¡Código incorrecto! Revisa bien el código que hay delante del armario...';
     }
     
     console.log('Respuesta usuario:', respuestaUsuario);
