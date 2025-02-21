@@ -3,7 +3,7 @@ const codigoSecreto = 'R0C10';
 const pistas = [
     {
         titulo: "Primera Pista",
-        texto: "¡Bienvenida a tu búsqueda del tesoro! Para empezar, mira en tu mesita de noche... encontrarás un código especial que debes introducir aquí 🔍",
+        texto: "¡Bienvenida a tu búsqueda del tesoro! 🌙 Donde tus sueños descansan cada noche, donde la luz tenue ilumina tus lecturas antes de dormir, un mensaje especial te espera... ¿Podrás encontrarlo? ✨",
         respuesta: "te quiero",
         imagen: "/assets/pista1.jpg"
     },
@@ -70,10 +70,14 @@ function mostrarPista() {
     const imagenPista = contenedorPista.querySelector('.imagen-pista');
     const inputRespuesta = document.getElementById('respuestaPista');
     
+    contenedorPista.style.opacity = '0';
+    contenedorPista.style.transform = 'translateY(20px)';
     contenedorPista.style.display = 'block';
     window.scrollTo(0, 0);
     
     setTimeout(() => {
+        contenedorPista.style.transition = 'all 0.5s ease';
+        contenedorPista.style.transform = 'translateY(0)';
         contenedorPista.style.opacity = '1';
         
         tituloPista.textContent = pistas[pistaActual].titulo;
@@ -100,7 +104,7 @@ function verificarRespuesta() {
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
-        mensajeError = '¡Código incorrecto! Revisa bien el código en tu mesita de noche...';
+        mensajeError = '¡Código incorrecto! El mensaje sigue esperando ser descubierto... ¿Has buscado bien en el lugar donde descansas tus sueños? 🌙';
     } else if (pistaActual === 1) {
         mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
     } else if (pistaActual === 2) {
