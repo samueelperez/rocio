@@ -131,8 +131,26 @@ function mostrarFinal() {
         title: 'Recuerda...',
         text: 'Porque eres especial Rocio ❤️',
         icon: 'success',
-        confirmButtonText: '¡Gracias!',
+        confirmButtonText: 'FIN ✨',
         confirmButtonColor: '#3a1c71'
+    }).then(() => {
+        // Ocultar todas las pantallas anteriores
+        document.getElementById('verificacion').style.display = 'none';
+        document.getElementById('pista').style.display = 'none';
+        
+        // Mostrar mensaje final con animación
+        Swal.fire({
+            title: 'Te quiero mucho ❤️',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            backdrop: `
+                rgba(58, 28, 113, 0.4)
+                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_P7sC%7Banimation:spinner_svv2 .8s linear infinite;animation-delay:-.8s%7D.spinner_s1WN%7Banimation-delay:-.65s%7D.spinner_oXPr%7Banimation-delay:-.5s%7D@keyframes spinner_svv2%7B0%25,66.66%25%7Banimation-timing-function:cubic-bezier(0.4,0,0.2,1);y:13px;height:2px%7D33.33%25%7Banimation-timing-function:cubic-bezier(0.8,0,0.6,1);y:5px;height:18px%7D%7D%3C/style%3E%3Cpath d='M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z' fill='none' stroke='%23d76d77' stroke-width='2'/%3E%3Cpath class='spinner_P7sC' d='M12 3C16.9706 3 21 7.02944 21 12' stroke='%23d76d77' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+                center center
+                no-repeat
+            `
+        });
     });
 }
 
