@@ -18,7 +18,7 @@ const pistas = [
     },
     {
         titulo: "¡Última Pista!",
-        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Tu bolso guarda la llave para descubrir la sorpresa final 🗝️"
+        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Encuentra la llave para descubrir la sorpresa final 🗝️"
     }
 ];
 
@@ -44,7 +44,16 @@ function mostrarError(mensaje) {
         text: mensaje,
         icon: 'error',
         confirmButtonText: 'Intentar de nuevo',
-        confirmButtonColor: '#d76d77'
+        confirmButtonColor: '#d76d77',
+        allowOutsideClick: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const inputRespuesta = document.getElementById('respuestaPista');
+            if (inputRespuesta) {
+                inputRespuesta.value = '';
+                inputRespuesta.focus();
+            }
+        }
     });
 }
 
@@ -89,12 +98,21 @@ function mostrarPista() {
 }
 
 function verificarRespuesta() {
-    let respuesta = document.getElementById('respuestaPista').value.trim();
+    let respuesta = document.getElementById('respuestaPista').value.trim()
+        .replace(/\s+/g, ' ')
+        .replace(/[\n\r]/g, '');
+    
+    if (!respuesta) return;
     
     // Convertir a minúsculas solo si no es la tercera pista
     if (pistaActual !== 2) {
-        respuesta = respuesta.toLowerCase();
+        respuesta = respuesta.toLowerCase().trim();
     }
+    
+    // Normalizar las respuestas esperadas
+    let respuestaEsperada = pistas[pistaActual].respuesta
+        .replace(/\s+/g, ' ')
+        .trim();
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
@@ -105,7 +123,7 @@ function verificarRespuesta() {
         mensajeError = '¡Código incorrecto! El código delante del armario debe estar en MAYÚSCULAS...';
     }
     
-    if (respuesta === pistas[pistaActual].respuesta) {
+    if (respuesta === respuestaEsperada) {
         pistaActual++;
         
         if (pistaActual >= pistas.length) {
