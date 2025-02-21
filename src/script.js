@@ -3,7 +3,7 @@ const codigoSecreto = 'R0C10';
 const pistas = [
     {
         titulo: "Primera Pista",
-        texto: "¡Bienvenida a tu búsqueda del tesoro! 🌙 Donde tus sueños descansan cada noche, donde la luz tenue ilumina tus lecturas antes de dormir, un mensaje especial te espera... ¿Podrás encontrarlo? ✨",
+        texto: "¡Bienvenida a tu búsqueda del tesoro! 🌙 Donde mas tiempo pasamos juntos, donde siempre hay confianza maxima... ahí encontraras la siguiente pista 💝",
         respuesta: "te quiero"
     },
     {
@@ -87,7 +87,7 @@ function verificarRespuesta() {
     } else if (pistaActual === 1) {
         mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
     } else if (pistaActual === 2) {
-        mensajeError = '¡Código incorrecto! Busca bien el código que hay delante del armario con candado...';
+        mensajeError = '¡Código incorrecto! El código delante del armario debe estar en MAYÚSCULAS...';
     } else if (pistaActual === 3) {
         mensajeError = '¡Esa no es la respuesta! Mira bien en tu bolso, seguro que encuentras algo especial...';
     }
