@@ -1,4 +1,4 @@
-const nombreCorrecto = 'rocio';
+const codigoSecreto = 'R0C10'; // Este será el código que dejarás en la mesa
 
 // Definir las pistas del juego
 const pistas = [
@@ -30,10 +30,11 @@ const pistas = [
 
 let pistaActual = 0;
 
-function verificarNombre() {
-    const nombreIngresado = document.getElementById('nombreInput').value.toLowerCase().trim();
+function verificarCodigo() {
+    const codigoIngresado = document.getElementById('codigoInput').value.trim();
     
-    if (nombreIngresado === nombreCorrecto) {
+    if (codigoIngresado.toUpperCase() === codigoSecreto) {
+        agregarCorazonesFlotantes();
         document.getElementById('verificacion').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('verificacion').style.display = 'none';
@@ -41,13 +42,13 @@ function verificarNombre() {
         }, 1000);
     } else {
         sacudirInput();
-        mostrarError('¡Este juego es solo para una persona especial!');
+        mostrarError('¡Código incorrecto! Busca bien en la mesa...');
     }
 }
 
 function mostrarError(mensaje) {
     Swal.fire({
-        title: '¡Ups!',
+        title: '¡Código Incorrecto!',
         text: mensaje,
         icon: 'error',
         confirmButtonText: 'Intentar de nuevo',
@@ -56,7 +57,7 @@ function mostrarError(mensaje) {
 }
 
 function sacudirInput() {
-    const input = document.getElementById('nombreInput');
+    const input = document.getElementById('codigoInput');
     input.style.animation = 'sacudir 0.5s ease-in-out';
     setTimeout(() => {
         input.style.animation = '';
@@ -125,12 +126,12 @@ function mostrarFinal() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('btnVerificar').addEventListener('click', verificarNombre);
+    document.getElementById('btnVerificar').addEventListener('click', verificarCodigo);
     document.getElementById('btnSiguientePista').addEventListener('click', verificarRespuesta);
     
     // Permitir enviar con Enter
-    document.getElementById('nombreInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') verificarNombre();
+    document.getElementById('codigoInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verificarCodigo();
     });
     
     document.getElementById('respuestaPista').addEventListener('keypress', (e) => {
@@ -797,7 +798,7 @@ ajustarAlturaVH();
 // Al inicio del archivo
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnVerificar')
-        .addEventListener('click', verificarNombre);
+        .addEventListener('click', verificarCodigo);
     
     document.getElementById('btnSi')
         .addEventListener('click', () => manejarRespuesta('si'));
