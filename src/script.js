@@ -18,8 +18,7 @@ const pistas = [
     },
     {
         titulo: "¡Última Pista!",
-        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Busca la llave para descubrir la sorpresa final 🗝️",
-        respuesta: "llave"
+        texto: "¡Enhorabuena! 🎉 Has encontrado la llave en tu bolso... ¡Ya puedes abrir el armario y descubrir tu sorpresa! 💝"
     }
 ];
 
@@ -73,9 +72,14 @@ function mostrarPista() {
     tituloPista.textContent = pistas[pistaActual].titulo;
     textoPista.textContent = pistas[pistaActual].texto;
     
-    inputRespuesta.style.display = 'block';
-    inputRespuesta.value = '';
-    inputRespuesta.focus();
+    if (pistaActual === 3) {
+        inputRespuesta.style.display = 'none';
+        document.getElementById('btnSiguientePista').style.display = 'none';
+    } else {
+        inputRespuesta.style.display = 'block';
+        inputRespuesta.value = '';
+        inputRespuesta.focus();
+    }
 }
 
 function verificarRespuesta() {
@@ -93,8 +97,6 @@ function verificarRespuesta() {
         mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
     } else if (pistaActual === 2) {
         mensajeError = '¡Código incorrecto! El código delante del armario debe estar en MAYÚSCULAS...';
-    } else if (pistaActual === 3) {
-        mensajeError = '¡Esa no es la respuesta! Mira bien en tu bolso, seguro que encuentras algo especial...';
     }
     
     if (respuesta === pistas[pistaActual].respuesta) {
