@@ -104,15 +104,23 @@ function verificarRespuesta() {
     // Prevenir múltiples clics
     document.getElementById('btnSiguientePista').disabled = true;
     
-    let respuesta = document.getElementById('respuestaPista').value.trim()
-        .replace(/\s+/g, ' ')
-        .replace(/[\n\r]/g, '');
+    let respuesta = document.getElementById('respuestaPista').value;
+    console.log('Respuesta original:', respuesta);
+    
+    // Limpiar la respuesta
+    respuesta = respuesta.trim();
+    console.log('Respuesta después de trim:', respuesta);
     
     if (!respuesta) return;
     
-    // Preparar respuestas para comparación
-    let respuestaUsuario = respuesta.toUpperCase();
-    let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase();
+    // Convertir ambas respuestas a mayúsculas y eliminar espacios extra
+    let respuestaUsuario = respuesta.toUpperCase().replace(/\s+/g, ' ');
+    let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase().replace(/\s+/g, ' ');
+    
+    console.log('Pista actual:', pistaActual);
+    console.log('Respuesta usuario (limpia):', respuestaUsuario);
+    console.log('Respuesta correcta (limpia):', respuestaCorrecta);
+    console.log('¿Son iguales?:', respuestaUsuario === respuestaCorrecta);
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
@@ -123,10 +131,8 @@ function verificarRespuesta() {
         mensajeError = '¡Código incorrecto! Revisa bien el código que hay delante del armario...';
     }
     
-    console.log('Respuesta usuario:', respuestaUsuario);
-    console.log('Respuesta correcta:', respuestaCorrecta);
-    
     if (respuestaUsuario === respuestaCorrecta) {
+        console.log('¡Respuesta correcta! Pasando a siguiente pista...');
         pistaActual++;
         
         if (pistaActual >= pistas.length) {
@@ -143,6 +149,7 @@ function verificarRespuesta() {
             });
         }
     } else {
+        console.log('Respuesta incorrecta, mostrando error');
         mostrarError(mensajeError);
     }
     
