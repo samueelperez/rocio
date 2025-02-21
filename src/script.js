@@ -106,16 +106,24 @@ function mostrarPista() {
     }
 }
 
-function verificarRespuesta() {
-    event.preventDefault();
-    document.getElementById('btnSiguientePista').disabled = true;
+function verificarRespuesta(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    const btnSiguiente = document.getElementById('btnSiguientePista');
+    if (btnSiguiente.disabled) {
+        return;
+    }
+
+    btnSiguiente.disabled = true;
     
     let respuestaUsuario = document.getElementById('respuestaPista').value || '';
     respuestaUsuario = respuestaUsuario.trim().toUpperCase();
     let respuestaCorrecta = pistas[pistaActual].respuesta.toUpperCase();
     
     if (!respuestaUsuario) {
-        document.getElementById('btnSiguientePista').disabled = false;
+        btnSiguiente.disabled = false;
         return;
     }
     
@@ -133,6 +141,7 @@ function verificarRespuesta() {
                 confirmButtonColor: '#3a1c71'
             }).then(() => {
                 mostrarPista();
+                btnSiguiente.disabled = false;
             });
         }
     } else {
@@ -145,11 +154,8 @@ function verificarRespuesta() {
             mensajeError = '¡Código incorrecto! Revisa bien el código que hay delante del armario...';
         }
         mostrarError(mensajeError);
+        btnSiguiente.disabled = false;
     }
-    
-    setTimeout(() => {
-        document.getElementById('btnSiguientePista').disabled = false;
-    }, 1000);
 }
 
 function mostrarFinal() {
@@ -180,14 +186,14 @@ function mostrarFinal() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnVerificar').addEventListener('click', verificarCodigo);
-    document.getElementById('btnSiguientePista').addEventListener('click', verificarRespuesta);
+    document.getElementById('btnSiguientePista').addEventListener('click', (e) => verificarRespuesta(e));
     
     document.getElementById('codigoInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') verificarCodigo();
     });
     
     document.getElementById('respuestaPista').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') verificarRespuesta();
+        if (e.key === 'Enter') verificarRespuesta(e);
     });
 });
 
