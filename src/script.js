@@ -14,11 +14,11 @@ const pistas = [
     {
         titulo: "¡Vas muy bien! Tercera Pista",
         texto: "Hay un armario con candado que guarda un secreto... pero antes de abrirlo, necesito que encuentres el código que hay delante de él 🔒",
-        respuesta: "candado"
+        respuesta: "AMOR"
     },
     {
         titulo: "¡Última Pista!",
-        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Tu bolso guarda la llave para descubrir la sorpresa final 🗝️",
+        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Busca la llave para descubrir la sorpresa final 🗝️",
         respuesta: "llave"
     }
 ];
@@ -30,6 +30,7 @@ function verificarCodigo() {
     
     if (codigoIngresado.toUpperCase() === codigoSecreto) {
         agregarCorazonesFlotantes();
+        document.getElementById('verificacion').style.animation = 'fadeIn 0.3s ease-out forwards';
         document.getElementById('verificacion').style.display = 'none';
         mostrarPista();
     } else {
@@ -61,6 +62,10 @@ function mostrarPista() {
     const tituloPista = contenedorPista.querySelector('.titulo-pista');
     const textoPista = contenedorPista.querySelector('.texto-pista');
     const inputRespuesta = document.getElementById('respuestaPista');
+    
+    contenedorPista.style.animation = 'none';
+    contenedorPista.offsetHeight;
+    contenedorPista.style.animation = 'fadeIn 0.3s ease-out forwards';
     
     contenedorPista.style.display = 'block';
     window.scrollTo(0, 0);
