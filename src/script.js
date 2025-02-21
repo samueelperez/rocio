@@ -4,26 +4,22 @@ const pistas = [
     {
         titulo: "Primera Pista",
         texto: "¡Bienvenida a tu búsqueda del tesoro! 🌙 Donde tus sueños descansan cada noche, donde la luz tenue ilumina tus lecturas antes de dormir, un mensaje especial te espera... ¿Podrás encontrarlo? ✨",
-        respuesta: "te quiero",
-        imagen: "/assets/pista1.jpg"
+        respuesta: "te quiero"
     },
     {
         titulo: "¡Bien hecho! Segunda Pista",
         texto: "Ahora busca debajo del lugar donde todo empezó, donde tuvimos nuestra primera conversación en el piso... ese mueble guarda nuestro primer momento juntos 💝",
-        respuesta: "las 50 sombras de grey",
-        imagen: "/assets/pista2.jpg"
+        respuesta: "las 50 sombras de grey"
     },
     {
         titulo: "¡Vas muy bien! Tercera Pista",
         texto: "Hay un armario con candado que guarda un secreto... pero antes de abrirlo, necesito que encuentres el código que hay delante de él 🔒",
-        respuesta: "candado",
-        imagen: "/assets/pista3.jpg"
+        respuesta: "candado"
     },
     {
         titulo: "¡Última Pista!",
         texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Tu bolso guarda la llave para descubrir la sorpresa final 🗝️",
-        respuesta: "llave",
-        imagen: "/assets/pista4.jpg"
+        respuesta: "llave"
     }
 ];
 
@@ -64,7 +60,6 @@ function mostrarPista() {
     const contenedorPista = document.getElementById('pista');
     const tituloPista = contenedorPista.querySelector('.titulo-pista');
     const textoPista = contenedorPista.querySelector('.texto-pista');
-    const imagenPista = contenedorPista.querySelector('.imagen-pista');
     const inputRespuesta = document.getElementById('respuestaPista');
     
     contenedorPista.style.display = 'block';
@@ -72,16 +67,6 @@ function mostrarPista() {
     
     tituloPista.textContent = pistas[pistaActual].titulo;
     textoPista.textContent = pistas[pistaActual].texto;
-    
-    if (pistas[pistaActual].imagen) {
-        imagenPista.src = pistas[pistaActual].imagen;
-        imagenPista.style.display = 'block';
-        imagenPista.onload = () => {
-            window.scrollTo(0, 0);
-        };
-    } else {
-        imagenPista.style.display = 'none';
-    }
     
     inputRespuesta.style.display = 'block';
     inputRespuesta.value = '';

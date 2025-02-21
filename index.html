@@ -70,12 +70,10 @@
             border-radius: 25px;
             color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
             margin-top: 10px;
         }
 
         button:hover {
-            transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(58, 28, 113, 0.3);
         }
 
@@ -134,6 +132,14 @@
                 margin: 10px 0;
             }
         }
+
+        #pista {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
@@ -148,9 +154,6 @@
         <h2 class="titulo-pista">Primera Pista</h2>
         <div class="contenido-pista">
             <p class="texto-pista">Aquí aparecerá tu primera pista...</p>
-            <div class="imagen-pista-container">
-                <img src="" alt="Pista visual" class="imagen-pista" style="display: none;">
-            </div>
         </div>
         <input type="text" id="respuestaPista" placeholder="Escribe tu respuesta" style="display: none;">
         <button id="btnSiguientePista" class="boton-pista">¡Lo encontré! 🔍</button>
