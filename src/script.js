@@ -3,26 +3,26 @@ const codigoSecreto = 'R0C10';
 const pistas = [
     {
         titulo: "Primera Pista",
-        texto: "Para comenzar esta aventura, busca donde guardas tu bebida caliente favorita cada mañana... ¿Qué palabra encuentras?",
-        respuesta: "amor",
+        texto: "¡Bienvenida a tu búsqueda del tesoro! Para empezar, mira en tu mesita de noche... encontrarás un código especial que debes introducir aquí 🔍",
+        respuesta: "te quiero",
         imagen: "/assets/pista1.jpg"
     },
     {
         titulo: "¡Bien hecho! Segunda Pista",
-        texto: "El lugar donde los momentos dulces se guardan, y el frío mantiene todo en su lugar. Busca en la puerta del refrigerador...",
-        respuesta: "cocina",
+        texto: "Ahora busca debajo del lugar donde todo empezó, donde tuvimos nuestra primera conversación en el piso... ese mueble guarda nuestro primer momento juntos 💝",
+        respuesta: "las 50 sombras de grey",
         imagen: "/assets/pista2.jpg"
     },
     {
         titulo: "¡Vas muy bien! Tercera Pista",
-        texto: "Donde descansas tus sueños cada noche, debajo de tu almohada hay algo especial esperándote...",
-        respuesta: "dormitorio",
+        texto: "Hay un armario con candado que guarda un secreto... pero antes de abrirlo, necesito que encuentres el código que hay delante de él 🔒",
+        respuesta: "candado",
         imagen: "/assets/pista3.jpg"
     },
     {
         titulo: "¡Última Pista!",
-        texto: "El lugar donde guardas tus mejores outfits esconde el regalo final... ¡Búscalo!",
-        respuesta: "armario",
+        texto: "Llevas siempre contigo muchas cosas... pero hoy llevas algo más. Tu bolso guarda la llave para descubrir la sorpresa final 🗝️",
+        respuesta: "llave",
         imagen: "/assets/pista4.jpg"
     }
 ];
@@ -98,6 +98,17 @@ function mostrarPista() {
 function verificarRespuesta() {
     const respuesta = document.getElementById('respuestaPista').value.toLowerCase().trim();
     
+    let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
+    if (pistaActual === 0) {
+        mensajeError = '¡Código incorrecto! Revisa bien el código en tu mesita de noche...';
+    } else if (pistaActual === 1) {
+        mensajeError = '¡Código incorrecto! Revisa bien el código que encontraste debajo del sofá...';
+    } else if (pistaActual === 2) {
+        mensajeError = '¡Código incorrecto! Busca bien el código que hay delante del armario con candado...';
+    } else if (pistaActual === 3) {
+        mensajeError = '¡Esa no es la respuesta! Mira bien en tu bolso, seguro que encuentras algo especial...';
+    }
+    
     if (respuesta === pistas[pistaActual].respuesta) {
         pistaActual++;
         
@@ -115,14 +126,14 @@ function verificarRespuesta() {
             });
         }
     } else {
-        mostrarError('Esa no es la respuesta correcta. ¡Sigue buscando!');
+        mostrarError(mensajeError);
     }
 }
 
 function mostrarFinal() {
     Swal.fire({
         title: '¡Lo has conseguido!',
-        text: '¡Has encontrado todas las pistas! Ahora ve al armario por tu sorpresa final...',
+        text: '¡Has encontrado la llave! Ahora puedes abrir el candado del armario y descubrir tu sorpresa final... 💝',
         icon: 'success',
         confirmButtonText: '¡Gracias!',
         confirmButtonColor: '#3a1c71'
