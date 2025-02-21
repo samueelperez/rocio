@@ -79,7 +79,12 @@ function mostrarPista() {
 }
 
 function verificarRespuesta() {
-    const respuesta = document.getElementById('respuestaPista').value.toLowerCase().trim();
+    let respuesta = document.getElementById('respuestaPista').value.trim();
+    
+    // Convertir a minúsculas solo si no es la tercera pista
+    if (pistaActual !== 2) {
+        respuesta = respuesta.toLowerCase();
+    }
     
     let mensajeError = 'Esa no es la respuesta correcta. ¡Sigue buscando!';
     if (pistaActual === 0) {
