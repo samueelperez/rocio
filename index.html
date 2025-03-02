@@ -35,7 +35,7 @@
                     <li><a href="/cursos">Cursos de Formación</a></li>
                     <li><a href="/unete" class="btn-primary">Únete</a></li>
                     <li><a href="/contacto">Contacto</a></li>
-                    <li><button onclick="window.location.href='./afiliados/index.html'" class="btn-secondary nav-button">Área Afiliados</button></li>
+                    <li><button id="afiliadosBtn" class="btn-secondary nav-button">Área Afiliados</button></li>
                 </ul>
             </nav>
             
@@ -52,6 +52,14 @@
             </div>
         </div>
     </header>
+
+    <!-- Modal para Afiliados -->
+    <div id="afiliadosModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <iframe src="./afiliados/index.html" frameborder="0" width="100%" height="600px"></iframe>
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->
