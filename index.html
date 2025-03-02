@@ -2,229 +2,161 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, viewport-fit=cover">
-    <title>Búsqueda del Tesoro ✨</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗝️</text></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(45deg, #3a1c71, #d76d77, #ffaf7b);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            overflow: hidden;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .container {
-            text-align: center;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            max-width: 500px;
-            width: 85%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            color: #3a1c71;
-            font-size: clamp(20px, 4.5vw, 24px);
-            margin-bottom: 25px;
-            line-height: 1.4;
-        }
-
-        .instruccion {
-            font-size: 16px;
-            color: #666;
-            margin: 15px 0;
-            line-height: 1.5;
-        }
-
-        input {
-            width: 80%;
-            max-width: 300px;
-            padding: 12px 20px;
-            margin: 20px auto;
-            border: 2px solid #d76d77;
-            border-radius: 10px;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #3a1c71;
-            box-shadow: 0 0 15px rgba(58, 28, 113, 0.2);
-        }
-
-        button {
-            padding: 12px 30px;
-            font-size: 18px;
-            background: linear-gradient(45deg, #3a1c71, #d76d77);
-            border: none;
-            border-radius: 25px;
-            color: white;
-            cursor: pointer;
-            margin-top: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 80%;
-            max-width: 300px;
-        }
-
-        button:hover {
-            box-shadow: 0 5px 15px rgba(58, 28, 113, 0.3);
-        }
-
-        .texto-pista {
-            font-size: 20px;
-            line-height: 1.6;
-            color: #666;
-            margin: 20px 0;
-            padding: 0 10px;
-        }
-
-        .imagen-pista {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: auto;
-        }
-
-        @media screen and (max-width: 414px) {
-            body {
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                padding: 20px 0;
-            }
-
-            #pista {
-                position: relative;
-                top: auto;
-                left: auto;
-                transform: none;
-                margin: 20px auto;
-            }
-
-            .container {
-                padding: 25px 20px;
-                width: 85%;
-                margin: 0 auto;
-            }
-
-            h2 {
-                font-size: 22px;
-                margin-bottom: 20px;
-            }
-
-            input {
-                width: 90%;
-                padding: 15px;
-                font-size: 18px;
-            }
-
-            button {
-                padding: 15px 30px;
-                font-size: 16px;
-            }
-
-            .texto-pista {
-                font-size: 18px;
-                padding: 0 5px;
-            }
-
-            .imagen-pista-container {
-                margin: 15px -10px;
-            }
-
-            .imagen-pista {
-                border-radius: 8px;
-                margin: 10px 0;
-            }
-        }
-
-        #pista {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            max-width: 85%;
-            margin: 0 auto;
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sindicato Municipal</title>
+    <link rel="stylesheet" href="/src/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="verificacion" class="container">
-        <h2>¡Bienvenida a tu Búsqueda del Tesoro! 🗺️</h2>
-        <p class="instruccion">Encuentra el código secreto en la mesa para comenzar...</p>
-        <input type="text" id="codigoInput" placeholder="Introduce el código" autocomplete="off">
-        <button id="btnVerificar">¡Comenzar aventura! 🔍</button>
-    </div>
-
-    <div id="pista" class="container" style="display: none;">
-        <h2 class="titulo-pista">Primera Pista</h2>
-        <div class="contenido-pista">
-            <p class="texto-pista">Aquí aparecerá tu primera pista...</p>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <a href="/" class="logo">
+                    <img src="/assets/logo.svg" alt="Logo Sindicato Municipal">
+                    <span>Sindicato Municipal</span>
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="menu-toggle" aria-label="Abrir menú">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                
+                <ul class="nav-links">
+                    <li><a href="/" class="active">Inicio</a></li>
+                    <li><a href="/quienes-somos">Quiénes Somos</a></li>
+                    <li><a href="/noticias">Noticias</a></li>
+                    <li><a href="/recursos">Recursos</a></li>
+                    <li><a href="/cursos">Cursos de Formación</a></li>
+                    <li><a href="/unete" class="btn-primary">Únete</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            
+            <div class="search-container">
+                <button class="search-toggle" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="search-form">
+                    <form action="/buscar" method="get">
+                        <input type="text" name="q" placeholder="Buscar...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <input type="text" id="respuestaPista" placeholder="Escribe tu respuesta" style="display: none;">
-        <button id="btnSiguientePista" class="boton-pista">¡Lo encontré! 🔍</button>
-    </div>
+    </header>
 
-    <div class="container" id="contador" style="display: none;">
-        <h2 class="titulo-animado">No queda nada... ❤️</h2>
-        <div class="countdown">
-            <div class="time-block">
-                <span id="dias">03</span>
-                <span class="label">Días</span>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Por un Ayuntamiento más justo, contigo a cada paso</h1>
+                <div class="hero-buttons">
+                    <a href="/recursos" class="btn-primary">Consulta la Normativa Municipal</a>
+                    <a href="/unete" class="btn-secondary">Hazte Miembro</a>
+                </div>
             </div>
-            <div class="time-block">
-                <span id="horas">08</span>
-                <span class="label">Horas</span>
+        </section>
+
+        <!-- Noticias Destacadas -->
+        <section class="featured-news">
+            <div class="container">
+                <h2 class="section-title">Noticias Destacadas</h2>
+                <div class="news-grid">
+                    <!-- Noticia 1 -->
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="/assets/news1.jpg" alt="Noticia 1">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">15 de Julio, 2023</span>
+                            <h3>Nuevos acuerdos para mejorar las condiciones laborales</h3>
+                            <p>Se han alcanzado importantes acuerdos que beneficiarán a todos los trabajadores municipales...</p>
+                            <a href="/noticias/1" class="read-more">Leer más</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Noticia 2 -->
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="/assets/news2.jpg" alt="Noticia 2">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">10 de Julio, 2023</span>
+                            <h3>Próximas elecciones sindicales: Prepárate para participar</h3>
+                            <p>Conoce las fechas y los procedimientos para las próximas elecciones sindicales...</p>
+                            <a href="/noticias/2" class="read-more">Leer más</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Noticia 3 -->
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="/assets/news3.jpg" alt="Noticia 3">
+                        </div>
+                        <div class="news-content">
+                            <span class="news-date">5 de Julio, 2023</span>
+                            <h3>Nuevos cursos de formación disponibles para afiliados</h3>
+                            <p>Ampliamos nuestra oferta formativa con cursos especializados en diversas áreas...</p>
+                            <a href="/noticias/3" class="read-more">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="view-all">
+                    <a href="/noticias" class="btn-outline">Ver todas las noticias</a>
+                </div>
             </div>
-            <div class="time-block">
-                <span id="minutos">36</span>
-                <span class="label">Minutos</span>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="/assets/logo-white.svg" alt="Logo Sindicato Municipal">
+                    <p>Sindicato Municipal</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Enlaces rápidos</h4>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/quienes-somos">Quiénes Somos</a></li>
+                        <li><a href="/noticias">Noticias</a></li>
+                        <li><a href="/recursos">Recursos</a></li>
+                        <li><a href="/cursos">Cursos</a></li>
+                        <li><a href="/unete">Únete</a></li>
+                        <li><a href="/contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
+                    <p><i class="fas fa-phone"></i> +34 912 345 678</p>
+                    <p><i class="fas fa-envelope"></i> info@sindicatomunicipal.org</p>
+                </div>
+                <div class="footer-social">
+                    <h4>Síguenos</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="time-block">
-                <span id="segundos">56</span>
-                <span class="label">Segundos</span>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Sindicato Municipal. Todos los derechos reservados.</p>
+                <p><a href="/privacidad">Política de Privacidad</a> | <a href="/cookies">Política de Cookies</a></p>
             </div>
         </div>
-        <p class="mensaje-amor">Para poder ver algo especial... 💝</p>
-    </div>
+    </footer>
 
-    <div class="container" id="pregunta" style="display: none;">
-        <h2>Una pregunta... 💭</h2>
-        <p>¿Alguna vez alguien te ha pedido salir?</p>
-        <div class="botones-container">
-            <button id="btnSi" class="boton-respuesta">Sí</button>
-            <button id="btnNo" class="boton-respuesta">No</button>
-        </div>
-    </div>
-
-    <div class="container" id="segundaPantalla" style="display: none;">
-        <h2>¡Mi corazón es tuyo! ❤️</h2>
-        <p id="mensajeFinal">Sabía que dirías que sí. Te quiero muchísimo.</p>
-        <p style="font-size: 24px;">👩‍❤️‍👨</p>
-        <button id="btnReiniciar" style="margin-top: 20px;">🔄 Reiniciar</button>
-    </div>
-
-    <script type="module" src="/src/main.js"></script>
+    <script src="/src/main.js"></script>
 </body>
 </html> 
