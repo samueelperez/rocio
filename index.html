@@ -35,7 +35,7 @@
                     <li><a href="/cursos">Cursos de Formación</a></li>
                     <li><a href="/unete" class="btn-primary">Únete</a></li>
                     <li><a href="/contacto">Contacto</a></li>
-                    <li><button id="loginToggleBtn" class="btn-secondary nav-button">Área Afiliados</button></li>
+                    <li><button onclick="document.getElementById('loginSection').style.display='flex'" class="btn-secondary nav-button">Área Afiliados</button></li>
                 </ul>
             </nav>
             
@@ -56,7 +56,7 @@
     <!-- Formulario de Login para Afiliados (inicialmente oculto) -->
     <div id="loginSection" class="login-overlay" style="display: none;">
         <div class="login-container">
-            <span class="close-login">&times;</span>
+            <span class="close-login" onclick="document.getElementById('loginSection').style.display='none'">&times;</span>
             <h2>Acceso Área de Afiliados</h2>
             <p class="login-info">Introduce tus credenciales para acceder al área privada de afiliados.</p>
             
