@@ -35,7 +35,7 @@
                     <li><a href="/cursos">Cursos de Formación</a></li>
                     <li><a href="/unete" class="btn-primary">Únete</a></li>
                     <li><a href="/contacto">Contacto</a></li>
-                    <li><button id="afiliadosBtn" class="btn-secondary nav-button">Área Afiliados</button></li>
+                    <li><button id="loginToggleBtn" class="btn-secondary nav-button">Área Afiliados</button></li>
                 </ul>
             </nav>
             
@@ -53,11 +53,35 @@
         </div>
     </header>
 
-    <!-- Modal para Afiliados -->
-    <div id="afiliadosModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <iframe src="./afiliados/index.html" frameborder="0" width="100%" height="600px"></iframe>
+    <!-- Formulario de Login para Afiliados (inicialmente oculto) -->
+    <div id="loginSection" class="login-overlay" style="display: none;">
+        <div class="login-container">
+            <span class="close-login">&times;</span>
+            <h2>Acceso Área de Afiliados</h2>
+            <p class="login-info">Introduce tus credenciales para acceder al área privada de afiliados.</p>
+            
+            <div id="login-error" class="error-message" style="display: none;">
+                Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.
+            </div>
+            
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+            
+            <div class="login-help">
+                <p>¿No tienes acceso? Contacta con tu delegado sindical para obtener tus credenciales.</p>
+                <p>El acceso está restringido a afiliados de CCOO Burriana.</p>
+            </div>
         </div>
     </div>
 
